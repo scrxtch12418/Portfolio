@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './index.css';
 
 
@@ -166,7 +166,7 @@ export default function App() {
                   <div className="photo-telemetry tel-bottom-right">HZ_FREQ: 2.45 GHz<br />ENCRYPTION: SHIELDED</div>
                   {/* Clickable Photo Container */}
                   <div id="profilePhotoContainer" className="photo-container rv sr" style={{ transitionDelay: '.22s', width: 300, height: 300, borderRadius: '50%', overflow: 'hidden', border: '4px solid #000', boxShadow: '4px 4px 0 var(--hot)', position: 'relative', zIndex: 2, cursor: 'pointer', margin: '0 auto' }} data-title="Personal Profile Photo" data-info="Sarvasva's verified operator portrait. Click to interact!">
-                    <img src="/public/images/user_profile.png" alt="Sarvasva Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '50%' }} />
+                    <img src="/images/user_profile.png" alt="Sarvasva Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '50%' }} />
                   </div>
                   {/* Dialogue bubble */}
                   <div id="pokeDialog" className="poke-bubble" style={{ top: 20, left: '52%' }}>STOP IT!!</div>
@@ -355,7 +355,7 @@ export default function App() {
                   </div>
                 </a>
                 <a href="https://github.com/scrxtch12418/rat-research" target="_blank" rel="noopener" className="pc-link">
-                  <div className="pc rv" data-n={"01"} style={{ transitionDelay: '.08s' }} data-title="RAT - Cyber Lab Research" data-info="Click to view Github repository. Testing socket client connections and reverse terminal telemetry.">
+                  <div className="pc rv" data-n={"02"} style={{ transitionDelay: '.08s' }} data-title="RAT - Cyber Lab Research" data-info="Click to view Github repository. Testing socket client connections and reverse terminal telemetry.">
                     <div className="p-rarity rare">? RARE RARITY</div>
                     <div className="p-title">RAT — ETHICAL RESEARCH</div>
                     <div className="p-desc">Python Remote Access Trojan in a controlled lab — reverse shell, remote command
@@ -370,6 +370,22 @@ export default function App() {
                     <div className="p-desc">Published Chrome extension — focus timers, site-blocking, task reminders. Chrome
                       Extensions API for persistent storage and tab management.</div>
                     <div className="ptags"><span className="ptag">HTML/CSS</span><span className="ptag">JavaScript</span><span className="ptag">Chrome API</span><span className="ptag">UX Design</span></div>
+                  </div>
+                </a>
+                <a href="https://github.com/scrxtch12418/stuck-in-space" target="_blank" rel="noopener" className="pc-link">
+                  <div className="pc rv" data-n={"04"} style={{ transitionDelay: '.24s' }} data-title="Stuck in Space: Alien Farmer" data-info="Click to view Github repository. HTML5 Canvas retro-space farming game loop with automated helper structures.">
+                    <div className="p-rarity rare">? RARE RARITY</div>
+                    <div className="p-title">STUCK IN SPACE: ALIEN FARMER</div>
+                    <div className="p-desc">Retro space-farming survival game compiled with HTML5 Canvas. Manage crop seeds, satisfy company credit quotas, clear meteors, and deploy auto-sprinklers, harvesting drones, and sentries to survive corporate space constraints.</div>
+                    <div className="ptags"><span className="ptag">HTML5 Canvas</span><span className="ptag">Vanilla JS</span><span className="ptag">CSS3</span><span className="ptag">Game Loop</span></div>
+                  </div>
+                </a>
+                <a href="https://github.com/scrxtch12418/sales-agent" target="_blank" rel="noopener" className="pc-link">
+                  <div className="pc rv" data-n={"05"} style={{ transitionDelay: '.32s' }} data-title="AI Sales Agent" data-info="Click to view Github repository. Local Qwen3-sales model integrated with FastAPI and automated system APIs.">
+                    <div className="p-rarity epic">? EPIC RARITY</div>
+                    <div className="p-title">AI SALES AGENT</div>
+                    <div className="p-desc">Local AI agent built with FastAPI and Python. Integrates Qwen3-sales model locally via Ollama with automated registry tools. Leverages custom tool calling to execute system level actions, email client triggers, and local database connections.</div>
+                    <div className="ptags"><span className="ptag">FastAPI</span><span className="ptag">Python</span><span className="ptag">Ollama</span><span className="ptag">Agentic AI</span></div>
                   </div>
                 </a>
               </div>
@@ -402,77 +418,77 @@ export default function App() {
                   <div className="spiral-scroll-hint" aria-hidden="true">SCROLL // ROTATE</div>
                   <div className="dg-grid">
                     <div className="di rv" style={{ transitionDelay: '.04s' }}>
-                      <img className="di-img" src="/public/images/motley_crew_quiz.png" alt="The Motley Crew Quiz" />
+                      <img className="di-img" src="/images/motley_crew_quiz.png" alt="The Motley Crew Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE MOTLEY CREW QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · 11th April · 9:30 AM</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.08s' }}>
-                      <img className="di-img" src="/public/images/nutella_quiz.png" alt="The Nutella Quiz" />
+                      <img className="di-img" src="/images/nutella_quiz.png" alt="The Nutella Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE NUTELLA QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · Chocolate Trivia</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.12s' }}>
-                      <img className="di-img" src="/public/images/dia_de_muertos_quiz.png" alt="Día de Muertos Quiz" />
+                      <img className="di-img" src="/images/dia_de_muertos_quiz.png" alt="Día de Muertos Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">DÍA DE MUERTOS QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · Minis #18</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.16s' }}>
-                      <img className="di-img" src="/public/images/starter_quiz.png" alt="The Starter Quiz" />
+                      <img className="di-img" src="/images/starter_quiz.png" alt="The Starter Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE STARTER QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · 11th April · 9:30 AM</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.2s' }}>
-                      <img className="di-img" src="/public/images/kbk_quiz.png" alt="Kaun Banega Khiladi?" />
+                      <img className="di-img" src="/images/kbk_quiz.png" alt="Kaun Banega Khiladi?" />
                       <div className="di-ov">
                         <div className="di-ov-title">KAUN BANEGA KHILADI?</div>
                         <div className="di-ov-sub">Sports &amp; Strategy Collage Quiz</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.24s' }}>
-                      <img className="di-img" src="/public/images/rewind_quiz.png" alt="Rewind Quiz Poster" />
+                      <img className="di-img" src="/images/rewind_quiz.png" alt="Rewind Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">REWIND QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · Pop Culture Trivia</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.28s' }}>
-                      <img className="di-img" src="/public/images/studio99.png" alt="Studio 99 Salon Poster" />
+                      <img className="di-img" src="/images/studio99.png" alt="Studio 99 Salon Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">STUDIO 99</div>
                         <div className="di-ov-sub">Unisex Salon · Identity Graphics</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.32s' }}>
-                      <img className="di-img" src="/public/images/videogames_quiz.png" alt="Video Games Quiz Poster" />
+                      <img className="di-img" src="/images/videogames_quiz.png" alt="Video Games Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">VIDEO GAMES QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · Minis #11</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.36s' }}>
-                      <img className="di-img" src="/public/images/theoffice_quiz.png" alt="The Office Quiz Poster" />
+                      <img className="di-img" src="/images/theoffice_quiz.png" alt="The Office Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE OFFICE QUIZ</div>
                         <div className="di-ov-sub">Grey Matter Presents · Dunder Mifflin Trivia</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.4s' }}>
-                      <img className="di-img" src="/public/images/join_us_liquid.png" alt="Grey Matter Recruitment Liquid Poster" />
+                      <img className="di-img" src="/images/join_us_liquid.png" alt="Grey Matter Recruitment Liquid Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">GREY MATTER RECRUITMENT</div>
                         <div className="di-ov-sub">Join Us ·</div>
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.44s' }}>
-                      <img className="di-img" src="/public/images/join_us_waves.png" alt="Grey Matter Recruitment Waves Poster" />
+                      <img className="di-img" src="/images/join_us_waves.png" alt="Grey Matter Recruitment Waves Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">GREY MATTER RECRUITMENT</div>
                         <div className="di-ov-sub">Join Us ·</div>
@@ -516,7 +532,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.07s' }} data-title="Event Hosting" data-info="Sarvasva hosting the cultural fest Aikya on the main stage. Click to zoom.">
                   <div className="speak-type">Stage Action</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_aikya.jpeg" alt="Sarvasva hosting Aikya on main stage" />
+                    <img src="/images/speaking_aikya.jpeg" alt="Sarvasva hosting Aikya on main stage" />
                   </div>
                   <div className="speak-photo-caption">Hosting Aikya on Main Stage</div>
                 </div>
@@ -524,7 +540,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.09s' }} data-title="Event Hosting" data-info="Engaging a dynamic student crowd during an outdoor open-mic event. Click to zoom.">
                   <div className="speak-type">Outdoor Stage</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_sac_1.jpeg" alt="Sarvasva outdoor open-mic hosting" />
+                    <img src="/images/speaking_sac_1.jpeg" alt="Sarvasva outdoor open-mic hosting" />
                   </div>
                   <div className="speak-photo-caption">Outdoor Open-Mic Hosting</div>
                 </div>
@@ -532,7 +548,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.11s' }} data-title="Student Activity Centre" data-info="Addressing NMAMIT students during an outdoor SAC presentation. Click to zoom.">
                   <div className="speak-type">SAC Hosting</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_sac_2.jpeg" alt="Sarvasva speaking at SAC outdoor stage" />
+                    <img src="/images/speaking_sac_2.jpeg" alt="Sarvasva speaking at SAC outdoor stage" />
                   </div>
                   <div className="speak-photo-caption">SAC Outdoor Presentation</div>
                 </div>
@@ -540,7 +556,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.13s' }} data-title="Stage Setup" data-info="Configuring systems and stage cues from the host panel. Click to zoom.">
                   <div className="speak-type">Tech Desk</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_stage_laptop.jpeg" alt="Sarvasva at stage control panel" />
+                    <img src="/images/speaking_stage_laptop.jpeg" alt="Sarvasva at stage control panel" />
                   </div>
                   <div className="speak-photo-caption">Stage Technical Coordination</div>
                 </div>
@@ -557,7 +573,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.17s' }} data-title="Technical Presentation" data-info="Delivering a technical assembly presentation with a slide deck. Click to zoom.">
                   <div className="speak-type">Lecture Hall</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_lecture.jpeg" alt="Sarvasva giving classroom lecture" />
+                    <img src="/images/speaking_lecture.jpeg" alt="Sarvasva giving classroom lecture" />
                   </div>
                   <div className="speak-photo-caption">Lecturing Student Assemblies</div>
                 </div>
@@ -565,7 +581,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.19s' }} data-title="Model United Nations" data-info="Presenting critical delegate resolutions at the KMC Model United Nations. Click to zoom.">
                   <div className="speak-type">MUN Arena</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_mun_1.jpeg" alt="Sarvasva speaking at KMC MUN" />
+                    <img src="/images/speaking_mun_1.jpeg" alt="Sarvasva speaking at KMC MUN" />
                   </div>
                   <div className="speak-photo-caption">Presenting MUN Resolutions</div>
                 </div>
@@ -573,7 +589,7 @@ export default function App() {
                 <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.21s' }} data-title="MUN Debate" data-info="Arguing delegate briefs and addressing the assembly floor during MUN rounds. Click to zoom.">
                   <div className="speak-type">Debate Floor</div>
                   <div className="speak-img-single-wrapper">
-                    <img src="/public/images/speaking_mun_2.jpeg" alt="Sarvasva addressing MUN delegate floor" />
+                    <img src="/images/speaking_mun_2.jpeg" alt="Sarvasva addressing MUN delegate floor" />
                   </div>
                   <div className="speak-photo-caption">Addressing MUN Assembly Floor</div>
                 </div>

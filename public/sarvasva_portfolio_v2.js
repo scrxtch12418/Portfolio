@@ -1,4 +1,4 @@
-﻿/* ASCII + PIXEL BOOT SEQUENCE */
+/* ASCII + PIXEL BOOT SEQUENCE */
 (function () {
   var overlay = document.getElementById('bootSequence');
   var canvas = document.getElementById('bootRain');
@@ -294,7 +294,7 @@
       var el = document.getElementById(secs[i]);
       if (el) {
         // Custom smooth scroll with longer duration for a slower, smoother transition
-        const duration = 800; // duration in ms (adjust for desired speed)
+        const duration = 1600; // duration in ms (adjust for desired speed)
         const start = scr.scrollTop;
         const end = el.offsetTop;
         const startTime = performance.now();

@@ -298,10 +298,10 @@ body::after {
     radial-gradient(circle at 80% 20%, rgba(191, 0, 255, 0.12), transparent 40%),
     /* User uploaded halftone dot layer overlay - blended in screen mode - faded for subtleness */
     linear-gradient(rgba(8, 8, 8, 0.94), rgba(8, 8, 8, 0.94)),
-    url('/public/images/halftone_bg.webp'),
+    url('/images/halftone_bg.webp'),
     /* User uploaded fluid liquid background texture - faded for subtleness */
     linear-gradient(rgba(8, 8, 8, 0.92), rgba(8, 8, 8, 0.85)),
-    url('/public/images/portfolio_bg.webp');
+    url('/images/portfolio_bg.webp');
   background-size: 50px 50px, 50px 50px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, cover, cover, cover, cover;
   background-position: center;
   background-repeat: no-repeat;
