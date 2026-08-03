@@ -44,7 +44,7 @@ export default function App() {
           <div style={{ position: 'fixed', bottom: 42, right: 28, zIndex: 9999, fontSize: 8, opacity: '0.35', color: 'var(--paper)' }}>?
             DETECTED</div>
         </div>
-        <button id="perfToggle" onClick={(e) => { window.event = e; eval('togglePerfMode()') }}>PERF_MODE: OFF</button>
+        <button id="perfToggle" onClick={(e) => { window.event = e; window.togglePerfMode(); }}>PERF_MODE: OFF</button>
         <canvas id="cursorTrailCanvas" />
         <div id="cDot" />
         <div id="cRing" />
@@ -72,44 +72,43 @@ export default function App() {
                 SYSTEM CRASHED</div>
               <div id="finalScore" style={{ fontSize: 11, color: 'var(--paper)', letterSpacing: 1 }}>DATA PACKETS EXFILTRATED: 0
               </div>
-              <button className="k-close" onClick={(e) => { window.event = e; eval('startGame()') }} style={{ fontSize: 12, padding: '6px 14px', marginTop: 5, borderColor: 'var(--acid)', color: 'var(--acid)', boxShadow: '3px 3px 0 var(--acid)' }}>REBOOT_HACK.EXE</button>
+              <button className="k-close" onClick={(e) => { window.event = e; window.startGame(); }} style={{ fontSize: 12, padding: '6px 14px', marginTop: 5, borderColor: 'var(--acid)', color: 'var(--acid)', boxShadow: '3px 3px 0 var(--acid)' }}>REBOOT_HACK.EXE</button>
             </div>
           </div>
           <div style={{ display: 'flex', gap: 12 }}>
-            <button className="k-close" onClick={(e) => { window.event = e; eval('startGame()') }} style={{ borderColor: 'var(--cyan)', color: 'var(--cyan)', boxShadow: '3px 3px 0 var(--cyan)' }}>RUN GAME</button>
-            <button className="k-close" onClick={(e) => { window.event = e; eval('closeGame()') }}>CLOSE CONSOLE</button>
+            <button className="k-close" onClick={(e) => { window.event = e; window.startGame(); }} style={{ borderColor: 'var(--cyan)', color: 'var(--cyan)', boxShadow: '3px 3px 0 var(--cyan)' }}>RUN GAME</button>
+            <button className="k-close" onClick={(e) => { window.event = e; window.closeGame(); }}>CLOSE CONSOLE</button>
           </div>
         </div>
         {/* TICKER */}
         <div id="ticker">
           <div className="tick-inner">
             &nbsp;&nbsp;? SARVASVA.EXE &nbsp;|&nbsp; PENTESTER · FULL STACK · GRAPHICS DESIGNER · QUIZ HOST · PUBLIC SPEAKER
-            &nbsp;|&nbsp; ???????? BA ? SECRET &nbsp;|&nbsp; WELCOME TO MY DIMENSION &nbsp;|&nbsp;
+            &nbsp;|&nbsp; ???????? BA ? SECRET &nbsp;|&nbsp;
             SCROLL TO EXPLORE &nbsp;|&nbsp; ? SARVASVA.EXE &nbsp;|&nbsp; PENTESTER · FULL STACK · GRAPHICS DESIGNER · QUIZ
             HOST ·
-            PUBLIC SPEAKER &nbsp;|&nbsp; ???????? BA ? SECRET &nbsp;|&nbsp; WELCOME TO MY DIMENSION
-            &nbsp;|&nbsp; SCROLL TO EXPLORE &nbsp;|&nbsp;
+            PUBLIC SPEAKER &nbsp;|&nbsp; ???????? BA ? SECRET &nbsp;|&nbsp; SCROLL TO EXPLORE &nbsp;|&nbsp;
           </div>
         </div>
         {/* NAV DOTS (right side) */}
         <div id="navDots">
-          <div className="ndot active" data-lbl="HOME" onClick={(e) => { window.event = e; eval('goSec(0)') }} />
-          <div className="ndot" data-lbl="ABOUT" onClick={(e) => { window.event = e; eval('goSec(1)') }} />
-          <div className="ndot" data-lbl="SKILLS" onClick={(e) => { window.event = e; eval('goSec(2)') }} />
-          <div className="ndot" data-lbl="PROJECTS" onClick={(e) => { window.event = e; eval('goSec(3)') }} />
-          <div className="ndot" data-lbl="DESIGN" onClick={(e) => { window.event = e; eval('goSec(4)') }} />
-          <div className="ndot" data-lbl="SPEAKING" onClick={(e) => { window.event = e; eval('goSec(5)') }} />
-          <div className="ndot" data-lbl="QUIZ" onClick={(e) => { window.event = e; eval('goSec(6)') }} />
+          <div className="ndot active" data-lbl="HOME" onClick={(e) => { window.event = e; window.goSec(0); }} />
+          <div className="ndot" data-lbl="ABOUT" onClick={(e) => { window.event = e; window.goSec(1); }} />
+          <div className="ndot" data-lbl="SKILLS" onClick={(e) => { window.event = e; window.goSec(2); }} />
+          <div className="ndot" data-lbl="PROJECTS" onClick={(e) => { window.event = e; window.goSec(3); }} />
+          <div className="ndot" data-lbl="DESIGN" onClick={(e) => { window.event = e; window.goSec(4); }} />
+          <div className="ndot" data-lbl="SPEAKING" onClick={(e) => { window.event = e; window.goSec(5); }} />
+          <div className="ndot" data-lbl="OUTRO" onClick={(e) => { window.event = e; window.goSec(6); }} />
         </div>
         {/* NAV STRIP (bottom) */}
         <div id="navStrip">
-          <button className="nsb active" onClick={(e) => { window.event = e; eval('goSec(0);setActive(this)') }}>HOME</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(1);setActive(this)') }}>ABOUT</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(2);setActive(this)') }}>SKILLS</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(3);setActive(this)') }}>PROJECTS</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(4);setActive(this)') }}>DESIGN</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(5);setActive(this)') }}>SPEAKING</button>
-          <button className="nsb" onClick={(e) => { window.event = e; eval('goSec(6);setActive(this);initQ()') }}>QUIZ</button>
+          <button className="nsb active" onClick={(e) => { window.event = e; window.goSec(0); window.setActive(e.currentTarget); }}>HOME</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(1); window.setActive(e.currentTarget); }}>ABOUT</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(2); window.setActive(e.currentTarget); }}>SKILLS</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(3); window.setActive(e.currentTarget); }}>PROJECTS</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(4); window.setActive(e.currentTarget); }}>DESIGN</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(5); window.setActive(e.currentTarget); }}>SPEAKING</button>
+          <button className="nsb" onClick={(e) => { window.event = e; window.goSec(6); window.setActive(e.currentTarget); }}>OUTRO</button>
         </div>
         <div id="scroller">
           {/* S0: HERO (HOME) */}
@@ -129,13 +128,13 @@ export default function App() {
                       <span>¦</span> INDEX // MY DIRECTORIES
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px', fontSize: 18 }}>
-                      <a href="javascript:goSec(0)"><span style={{ color: 'var(--cyan)' }}>01 //</span> HOME</a>
-                      <a href="javascript:goSec(1)"><span style={{ color: 'var(--cyan)' }}>02 //</span> ABOUT</a>
-                      <a href="javascript:goSec(2)"><span style={{ color: 'var(--cyan)' }}>03 //</span> SKILL</a>
-                      <a href="javascript:goSec(3)"><span style={{ color: 'var(--cyan)' }}>04 //</span> PROJECTS</a>
-                      <a href="javascript:goSec(4)"><span style={{ color: 'var(--cyan)' }}>05 //</span> DESIGN_GALLERY</a>
-                      <a href="javascript:goSec(5)"><span style={{ color: 'var(--cyan)' }}>06 //</span> SPEAKING_HOST</a>
-                      <a href="javascript:goSec(6)"><span style={{ color: 'var(--cyan)' }}>07 //</span> QUIZ_ARENA</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(0); }}><span style={{ color: 'var(--cyan)' }}>01 //</span> HOME</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(1); }}><span style={{ color: 'var(--cyan)' }}>02 //</span> ABOUT</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(2); }}><span style={{ color: 'var(--cyan)' }}>03 //</span> SKILL</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(3); }}><span style={{ color: 'var(--cyan)' }}>04 //</span> PROJECTS</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(4); }}><span style={{ color: 'var(--cyan)' }}>05 //</span> MY_DESIGNS</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(5); }}><span style={{ color: 'var(--cyan)' }}>06 //</span> SPEAKING</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); window.goSec(6); }}><span style={{ color: 'var(--cyan)' }}>07 //</span> THANK_YOU</a>
                     </div>
                   </div>
                 </div>
@@ -145,7 +144,7 @@ export default function App() {
                 {/* Top Terminal Diagnostics */}
                 <div className="term rv" style={{ margin: 0, fontSize: 8, lineHeight: '1.5', borderColor: 'var(--ink-rgba-10)', background: 'var(--ink-rgba-03)' }} data-title="Terminal Diagnostics" data-info="Diagnostic logs displaying core academic targets, active club roles, and developer traits.">
                   <div><span className="p" style={{ color: 'var(--hot)' }}>C:\SARVASVA&gt;</span> whoami</div>
-                  <div className="o" style={{ color: 'var(--ink-rgba-70)' }}>? A chill dude who loves talking</div>
+                  <div className="o" style={{ color: 'var(--ink-rgba-70)' }}>? A chill dude who loves learning</div>
                   <div className="o" style={{ color: 'var(--ink-rgba-70)' }}>? Cybersec + Full-Stack + Designer</div>
                 </div>
                 {/* Center Photo Zone */}
@@ -214,16 +213,12 @@ export default function App() {
                   <div className="h-intro" style={{ marginBottom: 12, fontSize: 16, lineHeight: '1.6', color: 'var(--paper-rgba-85)', background: 'var(--ink-rgba-20)', padding: '8px 12px', borderLeft: '3px solid var(--hot)' }}>
                     I am a cybersecurity enthusiast and full-stack software engineer pursuing my BE in Computer Science. I
                     specialize in penetration testing, building security tools, and automating tasks. Beyond code,
-                    I build high-impact poster grids, make attractive and flashy posters for club events, and design user
+                    I am a photographer, make attractive and flashy posters for club events, and design user
                     interfaces for web applications.
                     When I am not doing those, I host quizzes and flashmobs, join debates, and connect with my peers.
                     Along with that I also enjoy playing video games, listening to music, and listening to podcasts.
                   </div>
                   <div className="statg rv">
-                    <div className="stc" data-title="Graduation Quest" data-info="On track to finalize CS engineering degree layers in 2028."><span className="stbig">2028</span><span className="stsm">Graduation</span></div>
-                    <div className="stc" data-title="Hacking Activity" data-info="Regularly auditing platforms and executing capture-the-flag network challenges."><span className="stbig">Goofy</span><span className="stsm">Active</span></div>
-                    <div className="stc" data-title="Credentials Block" data-info="4+ global security and framework certifications acquired and validated."><span className="stbig">Thinking</span><span className="stsm">100%</span></div>
-                    <div className="stc" data-title="Curiosity Curve" data-info="Hacking deep hardware loops and styling interfaces forever."><span className="stbig">8</span><span className="stsm">Curiosity</span></div>
                   </div>
                   <div style={{ height: 3, background: 'var(--paper-rgba-08)', margin: '3px 0' }} />
                   <div className="term rv" style={{ transitionDelay: '.1s' }} data-title="Clubs & Affiliations" data-info="Clubs, committees, and publicity networks.">
@@ -288,10 +283,9 @@ export default function App() {
                     <div className="sk-item">Vulnerability Analysis <span style={{ color: 'var(--hot)' }}>[READY]</span></div>
                   </div>
                   <div className="brow">
-                    <span className="badge" data-title="Exploitation Suite" data-info="Metasploit: Premier active cyber vulnerability execution framework.">TESTING</span>
-                    <span className="badge" data-title="Cyber OS Platform" data-info="Kali Linux: Offensive platform for auditing hardware and software endpoints.">Kali
-                      Linux</span>
-                    <span className="badge" data-title="Security Standard" data-info="OWASP: Top 10 vulnerabilities auditor tracking web data breaches.">OWASP</span>
+                    <span className="badge" data-title="Exploitation Suite" data-info="Metasploit: Premier active cyber vulnerability execution framework.">PENTESTING</span>
+                    <span className="badge" data-title="Cyber OS Platform" data-info="Kali Linux: Offensive platform for auditing hardware and software endpoints.">KALI
+                      LINUX</span>
                     <span className="badge" data-title="Packet Analyzer" data-info="Wireshark: Analyzing deep network streams, protocol packets, and frame handshakes.">OSINT</span>
                   </div>
                 </div>
@@ -305,8 +299,8 @@ export default function App() {
                     <div className="sk-item">C# <span style={{ color: 'var(--acid)' }}>[READY]</span></div>
                   </div>
                   <div className="brow">
-                    <span className="badge" data-title="Backend JS" data-info="Node.js: High-performance V8 runtime executing scalable backend servers.">REACH.JS</span>
-                    <span className="badge" data-title="Server Router" data-info="Express: Clean routing architecture handling client APIs and REST requests.">EXPRESS</span>
+                    <span className="badge" data-title="Backend JS" data-info="Node.js: High-performance V8 runtime executing scalable backend servers.">REACT.JS</span>
+                    <span className="badge" data-title="Server Router" data-info="Express: Clean routing architecture handling client APIs and REST requests.">FAST API</span>
                     <span className="badge" data-title="API Architecture" data-info="REST API: Building standard JSON endpoints for instant network data delivery.">REST
                       API</span>
                   </div>
@@ -351,23 +345,23 @@ export default function App() {
                     <div className="p-desc">Red-teaming framework with input/output validation pipelines. Detects prompt injection
                       across 11 categories — API keys, SSNs, JWT tokens. Confidence scoring + severity classification. Full
                       CLI tool with test suite.</div>
-                    <div className="ptags"><span className="ptag">Python</span><span className="ptag">OWASP</span><span className="ptag">Regex</span><span className="ptag">Red Team</span></div>
+                    <div className="ptags"><span className="ptag">Python</span><span className="ptag">Regex</span></div>
                   </div>
                 </a>
                 <a href="https://github.com/scrxtch12418/rat-research" target="_blank" rel="noopener" className="pc-link">
                   <div className="pc rv" data-n={"02"} style={{ transitionDelay: '.08s' }} data-title="RAT - Cyber Lab Research" data-info="Click to view Github repository. Testing socket client connections and reverse terminal telemetry.">
                     <div className="p-rarity rare">? RARE RARITY</div>
                     <div className="p-title">RAT — ETHICAL RESEARCH</div>
-                    <div className="p-desc">Python Remote Access Trojan in a controlled lab — reverse shell, remote command
+                    <div className="p-desc">Python Remote Access Trojan in a controlled lab executing a reverse shell, remote command
                       execution, file exfiltration. Documented threat-model analysis. For ethical use only.</div>
-                    <div className="ptags"><span className="ptag">Python</span><span className="ptag">Sockets</span><span className="ptag">Ethical Hacking</span><span className="ptag">Threat Modeling</span></div>
+                    <div className="ptags"><span className="ptag">Python</span><span className="ptag">Sockets</span><span className="ptag">Threat Modeling</span></div>
                   </div>
                 </a>
                 <a href="https://github.com/scrxtch12418/Projects/tree/main/Focus%20Extension" target="_blank" rel="noopener" className="pc-link">
                   <div className="pc rv" data-n={"03"} style={{ transitionDelay: '.16s' }} data-title="ADHD Focus Node" data-info="Click to view Github repository. Persistent storage timers, tab limiting, and domain blockades.">
                     <div className="p-rarity uncommon">? UNCOMMON</div>
                     <div className="p-title">ADHD FOCUS EXTENSION</div>
-                    <div className="p-desc">Published Chrome extension — focus timers, site-blocking, task reminders. Chrome
+                    <div className="p-desc">Published Chrome extension, focus timers, site-blocking, task reminders. Chrome
                       Extensions API for persistent storage and tab management.</div>
                     <div className="ptags"><span className="ptag">HTML/CSS</span><span className="ptag">JavaScript</span><span className="ptag">Chrome API</span><span className="ptag">UX Design</span></div>
                   </div>
@@ -375,9 +369,9 @@ export default function App() {
                 <a href="https://github.com/scrxtch12418/stuck-in-space" target="_blank" rel="noopener" className="pc-link">
                   <div className="pc rv" data-n={"04"} style={{ transitionDelay: '.24s' }} data-title="Stuck in Space: Alien Farmer" data-info="Click to view Github repository. HTML5 Canvas retro-space farming game loop with automated helper structures.">
                     <div className="p-rarity rare">? RARE RARITY</div>
-                    <div className="p-title">STUCK IN SPACE: ALIEN FARMER</div>
-                    <div className="p-desc">Retro space-farming survival game compiled with HTML5 Canvas. Manage crop seeds, satisfy company credit quotas, clear meteors, and deploy auto-sprinklers, harvesting drones, and sentries to survive corporate space constraints.</div>
-                    <div className="ptags"><span className="ptag">HTML5 Canvas</span><span className="ptag">Vanilla JS</span><span className="ptag">CSS3</span><span className="ptag">Game Loop</span></div>
+                    <div className="p-title">STUCK IN SPACE</div>
+                    <div className="p-desc">Retro space-farming survival game made in GODOT, for the GMTK GameJam. Manage crop seeds, satisfy company credit quotas, clear meteors, and deploy auto-sprinklers, harvesting drones, and sentries to survive corporate space constraints.</div>
+                    <div className="ptags"><span className="ptag">GODOT</span><span className="ptag">GDScript</span><span className="ptag">Pixel Art</span></div>
                   </div>
                 </a>
                 <a href="https://github.com/scrxtch12418/sales-agent" target="_blank" rel="noopener" className="pc-link">
@@ -421,77 +415,77 @@ export default function App() {
                       <img className="di-img" src="/images/motley_crew_quiz.png" alt="The Motley Crew Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE MOTLEY CREW QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · 11th April · 9:30 AM</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.08s' }}>
                       <img className="di-img" src="/images/nutella_quiz.png" alt="The Nutella Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE NUTELLA QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · Chocolate Trivia</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.12s' }}>
                       <img className="di-img" src="/images/dia_de_muertos_quiz.png" alt="Día de Muertos Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">DÍA DE MUERTOS QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · Minis #18</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.16s' }}>
                       <img className="di-img" src="/images/starter_quiz.png" alt="The Starter Quiz" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE STARTER QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · 11th April · 9:30 AM</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.2s' }}>
                       <img className="di-img" src="/images/kbk_quiz.png" alt="Kaun Banega Khiladi?" />
                       <div className="di-ov">
                         <div className="di-ov-title">KAUN BANEGA KHILADI?</div>
-                        <div className="di-ov-sub">Sports &amp; Strategy Collage Quiz</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.24s' }}>
                       <img className="di-img" src="/images/rewind_quiz.png" alt="Rewind Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">REWIND QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · Pop Culture Trivia</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.28s' }}>
                       <img className="di-img" src="/images/studio99.png" alt="Studio 99 Salon Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">STUDIO 99</div>
-                        <div className="di-ov-sub">Unisex Salon · Identity Graphics</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.32s' }}>
                       <img className="di-img" src="/images/videogames_quiz.png" alt="Video Games Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">VIDEO GAMES QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · Minis #11</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.36s' }}>
                       <img className="di-img" src="/images/theoffice_quiz.png" alt="The Office Quiz Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">THE OFFICE QUIZ</div>
-                        <div className="di-ov-sub">Grey Matter Presents · Dunder Mifflin Trivia</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.4s' }}>
                       <img className="di-img" src="/images/join_us_liquid.png" alt="Grey Matter Recruitment Liquid Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">GREY MATTER RECRUITMENT</div>
-                        <div className="di-ov-sub">Join Us ·</div>
+
                       </div>
                     </div>
                     <div className="di rv" style={{ transitionDelay: '.44s' }}>
                       <img className="di-img" src="/images/join_us_waves.png" alt="Grey Matter Recruitment Waves Poster" />
                       <div className="di-ov">
                         <div className="di-ov-title">GREY MATTER RECRUITMENT</div>
-                        <div className="di-ov-sub">Join Us ·</div>
+
                       </div>
                     </div>
                   </div>
@@ -519,108 +513,111 @@ export default function App() {
                   presence</span>
               </div>
               <div className="speak-grid">
-                <div className="speak-card rv" data-icon="??" style={{ transitionDelay: '.05s' }} data-title="Grey Matter QDC Quiz Nights" data-info="Commanded the spotlight as Quiz Master, directing real-time score grids and managing team dynamics.">
+                <div className="speak-card rv" data-icon="🎤" style={{ transitionDelay: '.05s' }} data-title="Grey Matter QDC Quiz Nights" data-info="Commanded the spotlight as Quiz Master, directing real-time score grids and managing team dynamics.">
                   <div className="speak-type">Quiz Master</div>
                   <div className="speak-title">GREY MATTER QDC &amp; HOSTING</div>
-                  <div className="speak-meta">Grey Matter QDC &nbsp;·&nbsp; NMAM Institute &nbsp;·&nbsp; Ongoing</div>
-                  <div className="speak-desc">Hosted multiple national-level, inter-college, and intra-college events and quizzes.
+                  <div className="speak-desc">Hosted intra-college events and quizzes, along with participating in quite a few of them.
                     Wrote questions, managed rounds, kept audience energy high, and coordinated live stage flows.</div>
                   <div className="speak-tags"><span className="speak-tag">Quiz Master</span><span className="speak-tag">Audience
-                    Mgmt</span><span className="speak-tag">Stage Presence</span></div>
+                    Mgmt</span></div>
                 </div>
                 {/* QDC PHOTO 1 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.07s' }} data-title="Event Hosting" data-info="Sarvasva hosting the cultural fest Aikya on the main stage. Click to zoom.">
-                  <div className="speak-type">Stage Action</div>
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.07s' }} data-title="Event Hosting" data-info="Sarvasva hosting the cultural fest Aikya on the main stage. Click to zoom.">
                   <div className="speak-img-single-wrapper">
                     <img src="/images/speaking_aikya.jpeg" alt="Sarvasva hosting Aikya on main stage" />
                   </div>
-                  <div className="speak-photo-caption">Hosting Aikya on Main Stage</div>
-                </div>
-                {/* QDC PHOTO 2 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.09s' }} data-title="Event Hosting" data-info="Engaging a dynamic student crowd during an outdoor open-mic event. Click to zoom.">
-                  <div className="speak-type">Outdoor Stage</div>
-                  <div className="speak-img-single-wrapper">
-                    <img src="/images/speaking_sac_1.jpeg" alt="Sarvasva outdoor open-mic hosting" />
-                  </div>
-                  <div className="speak-photo-caption">Outdoor Open-Mic Hosting</div>
-                </div>
-                {/* QDC PHOTO 3 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.11s' }} data-title="Student Activity Centre" data-info="Addressing NMAMIT students during an outdoor SAC presentation. Click to zoom.">
-                  <div className="speak-type">SAC Hosting</div>
-                  <div className="speak-img-single-wrapper">
-                    <img src="/images/speaking_sac_2.jpeg" alt="Sarvasva speaking at SAC outdoor stage" />
-                  </div>
-                  <div className="speak-photo-caption">SAC Outdoor Presentation</div>
                 </div>
                 {/* QDC PHOTO 4 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.13s' }} data-title="Stage Setup" data-info="Configuring systems and stage cues from the host panel. Click to zoom.">
-                  <div className="speak-type">Tech Desk</div>
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.09s' }} data-title="Stage Setup" data-info="Configuring systems and stage cues from the host panel. Click to zoom.">
                   <div className="speak-img-single-wrapper">
                     <img src="/images/speaking_stage_laptop.jpeg" alt="Sarvasva at stage control panel" />
                   </div>
-                  <div className="speak-photo-caption">Stage Technical Coordination</div>
                 </div>
                 {/* MUN / DEBATES INFO */}
-                <div className="speak-card rv" data-icon="??" style={{ transitionDelay: '.15s' }} data-title="Debates & Lecturing" data-info="Participated in multiple Model United Nations debates and delivered technical presentations to student assemblies.">
+                <div className="speak-card rv" data-icon="💬" style={{ transitionDelay: '.11s' }} data-title="Debates & Lecturing" data-info="Participated in multiple Model United Nations debates and delivered technical presentations to student assemblies.">
                   <div className="speak-type">Public Speaker</div>
-                  <div className="speak-title">DEBATES, LECTURES &amp; MUN</div>
-                  <div className="speak-meta">Model United Nations &nbsp;·&nbsp; NMAMIT &nbsp;·&nbsp; Ongoing</div>
-                  <div className="speak-desc">Argued complex delegate briefs and policy resolutions at Model United Nations.
-                    Presented technical seminar briefs, lectured student assemblies, and coordinated open student debates.</div>
+                  <div className="speak-title">DEBATES &amp; MUN</div>
+
+                  <div className="speak-desc">Argued complex delegate briefs and policy resolutions at Model United Nations. Participated in Lok Sabhas, presenting various bills and drafting them.
+                  </div>
                   <div className="speak-tags"><span className="speak-tag">Delegate</span><span className="speak-tag">MUN Debate</span><span className="speak-tag">Presentation</span></div>
                 </div>
                 {/* MUN PHOTO 1 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.17s' }} data-title="Technical Presentation" data-info="Delivering a technical assembly presentation with a slide deck. Click to zoom.">
-                  <div className="speak-type">Lecture Hall</div>
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.13s' }} data-title="Technical Presentation" data-info="Delivering a technical assembly presentation with a slide deck. Click to zoom.">
                   <div className="speak-img-single-wrapper">
                     <img src="/images/speaking_lecture.jpeg" alt="Sarvasva giving classroom lecture" />
                   </div>
-                  <div className="speak-photo-caption">Lecturing Student Assemblies</div>
                 </div>
                 {/* MUN PHOTO 2 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.19s' }} data-title="Model United Nations" data-info="Presenting critical delegate resolutions at the KMC Model United Nations. Click to zoom.">
-                  <div className="speak-type">MUN Arena</div>
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.15s' }} data-title="Model United Nations" data-info="Presenting critical delegate resolutions at the KMC Model United Nations. Click to zoom.">
                   <div className="speak-img-single-wrapper">
                     <img src="/images/speaking_mun_1.jpeg" alt="Sarvasva speaking at KMC MUN" />
                   </div>
-                  <div className="speak-photo-caption">Presenting MUN Resolutions</div>
                 </div>
                 {/* MUN PHOTO 3 */}
-                <div className="speak-card rv speak-photo-single" data-icon="??" style={{ transitionDelay: '.21s' }} data-title="MUN Debate" data-info="Arguing delegate briefs and addressing the assembly floor during MUN rounds. Click to zoom.">
-                  <div className="speak-type">Debate Floor</div>
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.17s' }} data-title="MUN Debate" data-info="Arguing delegate briefs and addressing the assembly floor during MUN rounds. Click to zoom.">
                   <div className="speak-img-single-wrapper">
                     <img src="/images/speaking_mun_2.jpeg" alt="Sarvasva addressing MUN delegate floor" />
                   </div>
-                  <div className="speak-photo-caption">Addressing MUN Assembly Floor</div>
+                </div>
+                {/* FLASHMOB INFO */}
+                <div className="speak-card rv" data-icon="🕺" style={{ transitionDelay: '.19s' }} data-title="Flashmob Co-ordination" data-info="Choreographed, organized sync sessions, and performed in multiple college flashmobs to promote flagship fests.">
+                  <div className="speak-type">Anchor</div>
+                  <div className="speak-title">FLASHMOB PERFORMANCE &amp; CO-ORDINATION</div>
+
+                  <div className="speak-desc">Led and coordinated large-scale flashmob performances to promote flagship college festivals like Aikya and Incridea.</div>
+                  <div className="speak-tags"><span className="speak-tag">Choreographer</span><span className="speak-tag">Team Coordination</span><span className="speak-tag">Fest Hype</span></div>
+                </div>
+                {/* QDC PHOTO 2 (NOW AFTER FLASHMOB) */}
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.21s' }} data-title="Event Hosting" data-info="Engaging a dynamic student crowd during an outdoor open-mic event. Click to zoom.">
+                  <div className="speak-img-single-wrapper">
+                    <img src="/images/speaking_sac_1.jpeg" alt="Sarvasva outdoor open-mic hosting" />
+                  </div>
+                </div>
+                {/* QDC PHOTO 3 (NOW AFTER FLASHMOB) */}
+                <div className="speak-card rv speak-photo-single" data-icon="📷" style={{ transitionDelay: '.23s' }} data-title="Student Activity Centre" data-info="Addressing NMAMIT students during an outdoor SAC presentation. Click to zoom.">
+                  <div className="speak-img-single-wrapper">
+                    <img src="/images/speaking_sac_2.jpeg" alt="Sarvasva speaking at SAC outdoor stage" />
+                  </div>
                 </div>
               </div>
             </div>
           </section>
-          {/* S6: QUIZ */}
+          {/* S6: THANK YOU / OUTRO */}
           <section className="snap-sec" id="s6">
             <div className="sec-hdr">
               <div className="sec-num">06</div>
-              <div className="sec-title rv sl">QUIZ <em>ARENA</em></div>
+              <div className="sec-title rv sl">THANK <em>YOU</em></div>
             </div>
-            <div className="qwrap">
-              <div id="qgame">
-                <div className="qmeta">
-                  <div style={{ fontFamily: '"Space Mono",monospace', fontSize: 9, letterSpacing: 2, color: 'var(--paper-rgba-30)' }}>
-                    CAN YOU BEAT THE QUIZ MASTER?</div>
-                  <div className="qscore">SCORE: <span id="sv">0</span>/<span id="st">8</span></div>
+            <div className="ty-wrap">
+              <div className="ty-container">
+                <div className="ty-card rv" data-title="Outro Directory" data-info="Session completed successfully. Contact links established.">
+                  <div className="ty-header">
+                    <span>[DIRECTORY_TERMINAL]</span>
+                    <span style={{ color: 'var(--acid)', textShadow: '0 0 8px var(--acid)' }}>● ONLINE</span>
+                  </div>
+                  <div className="ty-title">THANK YOU FOR <em>VISITING</em></div>
+                  <div className="ty-desc">
+                    You have reached the end of the server directories. I appreciate you taking the time to explore my workspace, projects, and designs. 
+                    <br /><br />
+                    Let's connect and build something epic together. Select a protocol below to establish a connection.
+                  </div>
+                  <div className="ty-nodes">
+                    <a href="mailto:sarvasva5758@gmail.com" className="ty-btn email">
+                      EMAIL
+                    </a>
+                    <a href="https://linkedin.com/in/sarvasva-s-4470562b4" className="ty-btn linkedin" target="_blank" rel="noopener">
+                      LINKEDIN
+                    </a>
+                    <a href="https://github.com/scrxtch12418" className="ty-btn github" target="_blank" rel="noopener">
+                      GITHUB
+                    </a>
+                  </div>
+                  <div className="ty-footer">
+                    <span>SYS.PORTFOLIO // V2.0.0</span>
+                    <span>DISCONNECT [ESC]</span>
+                  </div>
                 </div>
-                <div className="qpips" id="qpips" />
-                <div style={{ height: 13 }} />
-                <div className="qtxt" id="qtxt" />
-                <div className="qopts" id="qopts" />
-                <div className="qfb" id="qfb" />
-                <button className="qnxt" id="qnxt" onClick={(e) => { window.event = e; eval('nextQ()') }}>NEXT QUESTION ?</button>
-              </div>
-              <div className="qres" id="qres">
-                <span className="rlabel">FINAL SCORE</span>
-                <span className="rscore" id="rsc">0</span>
-                <div className="rmsg" id="rmsg" />
-                <button className="rbtn" onClick={(e) => { window.event = e; eval('initQ()') }}>? PLAY AGAIN</button>
               </div>
             </div>
           </section>

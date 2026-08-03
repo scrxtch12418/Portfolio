@@ -293,19 +293,15 @@
     function goSec(i) {
       var el = document.getElementById(secs[i]);
       if (el) {
-        // Custom smooth scroll with longer duration for a slower, smoother transition
-        const duration = 1600; // duration in ms (adjust for desired speed)
-        const start = scr.scrollTop;
-        const end = el.offsetTop;
-        const startTime = performance.now();
-        const easeInOut = t => 0.5 - Math.cos(t * Math.PI) / 2; // ease-in-out curve
-        const step = now => {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          scr.scrollTop = start + (end - start) * easeInOut(progress);
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+        scr.style.scrollBehavior = 'smooth';
+        scr.scrollTop = el.offsetTop;
+        
+        // Restore scroll-behavior to auto after transition to keep trackpad scroll lag-free
+        if (scr.dataset.scrollTimer) clearTimeout(parseInt(scr.dataset.scrollTimer, 10));
+        var timer = setTimeout(function () {
+          scr.style.scrollBehavior = 'auto';
+        }, 800);
+        scr.dataset.scrollTimer = String(timer);
       }
     }
 
@@ -321,7 +317,6 @@
       document.querySelectorAll('.nsb').forEach(function (b, j) { b.classList.toggle('active', j === i) });
       triggerReveal(secs[i]);
       if (i === 2) animateBars();
-      if (i === 6 && !qStarted) initQ();
 
       // Resume typing animation if s0 becomes active again
       if (i === 0 && typingPaused) {
@@ -489,8 +484,7 @@
       { id: 's1', stage: '.asplit', items: '.aleft, .aright' },
       { id: 's2', stage: '.sg', items: '.sk' },
       { id: 's3', stage: '.pg', items: '.pc-link' },
-      { id: 's5', stage: '.speak-grid', items: '.speak-card' },
-      { id: 's6', stage: '.qwrap', items: null, single: true }
+      { id: 's5', stage: '.speak-grid', items: '.speak-card' }
     ];
     var sectionSpirals = [];
     var sectionSpiralTicking = false;
@@ -650,10 +644,8 @@
 
     /* 3D TILT EFFECT FOR CARDS */
     function initCardTilt() {
-      var cards = document.querySelectorAll('.section-spiral-item, .dg-grid .di');
+      var cards = document.querySelectorAll('.section-spiral-item, .dg-grid .di, .ty-card');
       cards.forEach(function (card) {
-        if (card.closest('#s6')) return;
-
         var rect = null;
         var tiltTicking = false;
 
@@ -703,7 +695,16 @@
     function triggerReveal(secId) {
       var sec = document.getElementById(secId); if (!sec) return;
       sec.querySelectorAll('.rv').forEach(function (el, i) {
-        setTimeout(function () { el.classList.add('in') }, i * 65 + 90);
+        setTimeout(function () {
+          el.classList.add('in');
+          var delay = el.style.transitionDelay || '';
+          if (delay) {
+            var delayMs = parseFloat(delay) * 1000;
+            setTimeout(function () {
+              el.style.transitionDelay = '0s';
+            }, 650 + delayMs);
+          }
+        }, i * 65 + 90);
       });
     }
     setTimeout(function () { triggerReveal('s0') }, 160);
@@ -722,66 +723,7 @@
       if (ki === kseq.length) { document.getElementById('konami').classList.add('show'); ki = 0; }
     });
 
-    /* QUIZ */
-    var qs = [
-      { q: "Which tool is the go-to for network scanning and reconnaissance?", opts: ["Metasploit", "Nmap", "Burp Suite", "Hydra"], ans: 1, exp: "Nmap is the recon workhorse of every pentest." },
-      { q: "What does RAT stand for in cybersecurity?", opts: ["Remote Access Trojan", "Random Attack Tool", "Rapid Auth Token", "Reverse App Testing"], ans: 0, exp: "Remote Access Trojan â€” a stealthy backdoor for persistent remote control." },
-      { q: "Which HTTP method is most exploited in CSRF attacks?", opts: ["GET", "POST", "DELETE", "OPTIONS"], ans: 1, exp: "POST requests carry state-changing actions â€” CSRF forges them on behalf of victims." },
-      { q: "What is prompt injection in LLM security?", opts: ["Overloading GPU memory", "Injecting malicious instructions via user input", "SQL injection for AI", "Buffer overflow in NLP"], ans: 1, exp: "Prompt injection tricks an LLM into following attacker-controlled instructions." },
-      { q: "Which Rick & Morty character would be the best pentester?", opts: ["Jerry (too scared)", "Bird Person (no hands)", "Rick Sanchez (galaxy-brain)", "Mr. Meeseeks (LOOK AT ME)"], ans: 2, exp: "Obviously Rick. He once hacked the Galactic Federation with a butter robot." },
-      { q: "In CTF, the 'pwn' category typically involves what?", opts: ["Web vulnerabilities", "Binary exploitation", "Crypto puzzles", "Network forensics"], ans: 1, exp: "Pwn = binary exploitation â€” stack overflows, ROP chains, the real fun stuff." },
-      { q: "Which framework powers Sarvasva's AI Sales Agent backend?", opts: ["Django", "Flask", "FastAPI", "Express.js"], ans: 2, exp: "FastAPI â€” async Python with auto-generated docs and real Outlook + Zoho integrations." },
-      { q: "What does OWASP stand for?", opts: ["Open Web Application Security Project", "Official Web Audit Security Protocol", "Open Worldwide Access Security Platform", "Online Web Attack Simulation Protocol"], ans: 0, exp: "Open Web Application Security Project â€” the bible of web security." },
-    ];
-    var qC = 0, qSc = 0, qAns = [], qStarted = false;
 
-    function initQ() {
-      qC = 0; qSc = 0; qAns = []; qStarted = true;
-      document.getElementById('qgame').style.display = 'block';
-      document.getElementById('qres').style.display = 'none';
-      var pips = document.getElementById('qpips'); pips.innerHTML = '';
-      qs.forEach(function (_, i) { var d = document.createElement('div'); d.className = 'pip'; d.id = 'p' + i; pips.appendChild(d); });
-      renderQ();
-    }
-
-    function renderQ() {
-      var q = qs[qC];
-      document.getElementById('qtxt').textContent = (qC + 1) + '. ' + q.q;
-      document.getElementById('qfb').textContent = ''; document.getElementById('qfb').style.color = '';
-      document.getElementById('qnxt').style.display = 'none';
-      document.getElementById('sv').textContent = qSc;
-      for (var i = 0; i < qs.length; i++) {
-        var pDocument = document.getElementById('p' + i); if (!pDocument) continue;
-        pDocument.className = 'pip' + (i < qC ? (qAns[i] ? ' c' : ' w') : i === qC ? ' cur' : '');
-      }
-      var L = ['A', 'B', 'C', 'D'], opts = document.getElementById('qopts'); opts.innerHTML = '';
-      q.opts.forEach(function (o, i) {
-        var b = document.createElement('button'); b.className = 'qopt'; b.setAttribute('data-l', L[i]); b.textContent = o;
-        b.addEventListener('click', function () { selA(i, this) }); opts.appendChild(b);
-      });
-    }
-
-    function selA(idx, btn) {
-      var q = qs[qC];
-      document.querySelectorAll('.qopt').forEach(function (b) { b.disabled = true });
-      var fb = document.getElementById('qfb');
-      if (idx === q.ans) { btn.classList.add('c'); qSc++; qAns.push(true); fb.textContent = 'âœ” CORRECT! ' + q.exp; fb.style.color = 'var(--acid)'; }
-      else { btn.classList.add('w'); document.querySelectorAll('.qopt')[q.ans].classList.add('c'); qAns.push(false); fb.textContent = 'âœ˜ NOPE! ' + q.exp; fb.style.color = 'var(--hot)'; }
-      document.getElementById('sv').textContent = qSc;
-      if (qC < qs.length - 1) document.getElementById('qnxt').style.display = 'block';
-      else setTimeout(showRes, 1300);
-    }
-
-    function nextQ() { qC++; renderQ(); }
-
-    function showRes() {
-      document.getElementById('qgame').style.display = 'none';
-      document.getElementById('qres').style.display = 'block';
-      document.getElementById('rsc').textContent = qSc + '/' + qs.length;
-      var msgs = [[0, 2, 'GAME OVER.\nRick is disappointed.\nBut hey, you tried.'], [3, 4, 'NOT BAD.\nYou\'re a Morty in training.'], [5, 6, 'SOLID.\nRick Sanchez energy detected.'], [7, 7, 'IMPRESSIVE.\nLegendary dev unlocked.'], [8, 8, 'PERFECT SCORE.\nWUBBA LUBBA DUB DUB.']];
-      var msg = msgs[0][2]; msgs.forEach(function (m) { if (qSc >= m[0] && qSc <= m[1]) msg = m[2]; });
-      document.getElementById('rmsg').textContent = msg;
-    }
 
     /* HIGH-FIDELITY DYNAMIC DESIGN LIGHTBOX MODAL */
     var modal = document.getElementById('designModal');
@@ -1098,5 +1040,11 @@
         setTimeout(window.startTyping, typingSpeed);
       }
     };
+
+    window.goSec = goSec;
+    window.setActive = setActive;
+    window.startGame = startGame;
+    window.closeGame = closeGame;
+
 
 
