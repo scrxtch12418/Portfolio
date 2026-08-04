@@ -490,6 +490,7 @@
     var sectionSpiralTicking = false;
 
     sectionSpiralConfigs.forEach(function (config) {
+      if (isMobile) return;
       var section = document.getElementById(config.id);
       if (!section) return;
 

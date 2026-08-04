@@ -3203,3 +3203,182 @@ section:nth-of-type(3n) .sec-hdr .sec-num {
   display: none !important;
   animation: none !important;
 }
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT OVERRIDES (MOBILE & TABLET SUPPORT)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Navigation Dots - Hide on small screens to prevent overlap */
+  #navDots {
+    display: none !important;
+  }
+
+  /* Poster Frame Elements - Hide decorative corner coordinates on mobile */
+  .poster-frame-elements {
+    display: none !important;
+  }
+
+  /* Section Header responsive adjustments */
+  .sec-hdr {
+    padding: 14px 18px 10px !important;
+    gap: 10px !important;
+  }
+
+  .sec-title {
+    font-size: 26px !important;
+    padding: 4px 12px !important;
+    box-shadow: 3px 3px 0 var(--hot) !important;
+  }
+
+  .sec-num {
+    font-size: 32px !important;
+    padding: 1px 6px !important;
+    box-shadow: 2px 2px 0 var(--hot) !important;
+  }
+
+  /* Hero Section (S0) Stacked Layout */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: auto !important;
+  }
+
+  .hero-left {
+    border-right: none !important;
+    border-bottom: 4px solid var(--paper) !important;
+    padding: 24px 20px !important;
+  }
+
+  .hero-left::before {
+    font-size: 180px !important;
+    right: -10px !important;
+    bottom: -40px !important;
+  }
+
+  .hero-right {
+    padding: 20px 16px !important;
+    gap: 16px !important;
+  }
+
+  /* About Section (S1) Stacked Layout */
+  .asplit {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .aleft,
+  .aright {
+    padding: 16px !important;
+  }
+
+  /* Section 4 Design Gallery - Normal Responsive Grid on Mobile */
+  #s4 {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .design-sticky {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: none !important;
+  }
+
+  #s4 .sec-body {
+    overflow: visible !important;
+    min-height: 0 !important;
+  }
+
+  .design-spiral-stage {
+    overflow: visible !important;
+    perspective: none !important;
+    min-height: 0 !important;
+    flex: none !important;
+  }
+
+  .design-spiral-stage .dg-grid {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 20px !important;
+    padding: 16px !important;
+    transform: none !important;
+    transform-style: flat !important;
+  }
+
+  .design-spiral-stage .dg-grid .di {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
+    box-shadow: -6px 6px 0 rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Hide Design Spiral decorative items on mobile */
+  .spiral-orbit,
+  .spiral-axis,
+  .spiral-progress,
+  .spiral-scroll-hint {
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Bottom Nav Strip adjustments to fit 7 items */
+  .nsb {
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
+    padding: 8px 1px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hero Name adjustment to avoid overflow */
+  .h-name {
+    font-size: 52px !important;
+  }
+
+  /* Hero profile picture container scale down */
+  .photo-zone {
+    transform: scale(0.85);
+    margin: -10px 0 !important;
+    height: 240px !important;
+  }
+
+  #profilePhotoContainer {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+  /* Speaking Section grid cards min width */
+  .speak-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+
+  /* Thank You card layout sizing */
+  .ty-wrap {
+    padding: 12px 12px 18px !important;
+  }
+
+  .ty-card {
+    padding: 18px !important;
+  }
+
+  .ty-title {
+    font-size: 28px !important;
+  }
+
+  .ty-desc {
+    font-size: 13px !important;
+    margin-bottom: 18px !important;
+  }
+}
