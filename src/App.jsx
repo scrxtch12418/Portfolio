@@ -216,7 +216,7 @@ export default function App() {
                     I am a photographer, make attractive and flashy posters for club events, and design user
                     interfaces for web applications.
                     When I am not doing those, I host quizzes and flashmobs, join debates, and connect with my peers.
-                    Along with that I also enjoy playing video games, listening to music, and listening to podcasts.
+                    Along with that I also enjoy playing video games, listening to music, and podcasts.
                   </div>
                   <div className="statg rv">
                   </div>
@@ -598,7 +598,7 @@ export default function App() {
                   </div>
                   <div className="ty-title">THANK YOU FOR <em>VISITING</em></div>
                   <div className="ty-desc">
-                    You have reached the end of the server directories. I appreciate you taking the time to explore my workspace, projects, and designs. 
+                    You have reached the end of the server directories. I appreciate you taking the time to explore my workspace, projects, and designs.
                     <br /><br />
                     Let's connect and build something epic together. Select a protocol below to establish a connection.
                   </div>

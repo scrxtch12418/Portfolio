@@ -651,7 +651,11 @@ body::before {
   bottom: 36px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none
+  scrollbar-width: none;
+  /* Hardware acceleration and compositor optimization */
+  will-change: scroll-position;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 #scroller::-webkit-scrollbar {
@@ -665,7 +669,10 @@ body::before {
   position: relative;
   overflow: hidden;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  /* Performance: skip offscreen paint to keep scrolling buttery smooth */
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
 }
 
 /* REVEAL */

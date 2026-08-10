@@ -290,6 +290,50 @@
     var secs = ['s0', 's1', 's2', 's3', 's4', 's5', 's6'];
     var curSec = -1;
 
+    // Smooth inertial scroll for trackpad & mousewheel on desktop
+    if (scr && !isMobile) {
+      var targetScrollTop = scr.scrollTop;
+      var currentScrollTop = scr.scrollTop;
+      var scrollSpeed = 1.35; // Fine-tuned speed multiplier
+      var ease = 0.085; // Fine-tuned easing factor
+
+      scr.addEventListener('wheel', function (e) {
+        // Allow scrollable children to scroll natively
+        var target = e.target;
+        while (target && target !== scr) {
+          if (target.scrollHeight > target.clientHeight) {
+            var style = window.getComputedStyle(target);
+            var overflowY = style.overflowY || style.overflow || '';
+            if (overflowY.indexOf('auto') !== -1 || overflowY.indexOf('scroll') !== -1) {
+              return;
+            }
+          }
+          target = target.parentNode;
+        }
+
+        e.preventDefault();
+        targetScrollTop += e.deltaY * scrollSpeed;
+        var maxScroll = scr.scrollHeight - scr.clientHeight;
+        targetScrollTop = Math.max(0, Math.min(maxScroll, targetScrollTop));
+      }, { passive: false });
+
+      scr.addEventListener('scroll', function () {
+        if (Math.abs(scr.scrollTop - currentScrollTop) > 4) {
+          targetScrollTop = scr.scrollTop;
+          currentScrollTop = scr.scrollTop;
+        }
+      }, { passive: true });
+
+      var smoothScrollLoop = function () {
+        if (Math.abs(targetScrollTop - currentScrollTop) > 0.3) {
+          currentScrollTop += (targetScrollTop - currentScrollTop) * ease;
+          scr.scrollTop = Math.round(currentScrollTop);
+        }
+        requestAnimationFrame(smoothScrollLoop);
+      };
+      requestAnimationFrame(smoothScrollLoop);
+    }
+
     function goSec(i) {
       var el = document.getElementById(secs[i]);
       if (el) {
@@ -348,14 +392,21 @@
         if (el) navObserver.observe(el);
       });
     } else if (scr) {
+      var navScrollTicking = false;
       scr.addEventListener('scroll', function () {
-        var sh = scr.clientHeight;
-        var sr = scr.getBoundingClientRect();
-        secs.forEach(function (id, i) {
-          var el = document.getElementById(id); if (!el) return;
-          var top = el.getBoundingClientRect().top - sr.top;
-          if (top > -sh * 0.5 && top < sh * 0.5) updateNav(i);
-        });
+        if (!navScrollTicking) {
+          requestAnimationFrame(function () {
+            var sh = scr.clientHeight;
+            var sr = scr.getBoundingClientRect();
+            secs.forEach(function (id, i) {
+              var el = document.getElementById(id); if (!el) return;
+              var top = el.getBoundingClientRect().top - sr.top;
+              if (top > -sh * 0.5 && top < sh * 0.5) updateNav(i);
+            });
+            navScrollTicking = false;
+          });
+          navScrollTicking = true;
+        }
       }, { passive: true });
     }
 
