@@ -1,16 +1,76 @@
-# React + Vite
+# Developer Portfolio — React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, responsive personal developer portfolio website featuring a sleek glassmorphism UI design, smooth micro-animations, interactive project showcases, and technical skills display.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ⚡ Tech Stack
 
-## React Compiler
+- **Framework**: [React 19](https://react.dev/)
+- **Build Tool**: [Vite 8](https://vitejs.dev/)
+- **Linting & Code Quality**: [Oxlint](https://oxc.rs/)
+- **Styling**: Vanilla CSS with custom variables, CSS Grid/Flexbox, dynamic animations, and Glassmorphism effects
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- **Hero Section**: Bio, title, and quick call-to-actions.
+- **Tech Stack & Skills Matrix**: Highlighting core languages, web frameworks, cybersecurity tools, and design software.
+- **Project Showcase**: Detailed cards showcasing featured engineering & security projects.
+- **Experience & Education Timeline**: Interactive history of academic background, hackathons, and roles.
+- **Interactive UI**: Responsive navbar, theme accents, and contact forms.
+
+---
+
+## 📂 Project Structure
+
+```
+Portfolio/
+├── index.html         # HTML entry point
+├── package.json       # Project metadata & dependencies
+├── vite.config.js     # Vite configuration
+├── .oxlintrc.json     # Oxlint configuration
+├── public/            # Static assets
+└── src/
+    ├── main.jsx       # Application bootstrap
+    ├── App.jsx        # Core application layout & routing
+    ├── index.css      # Design system, CSS variables, and global styles
+    ├── assets/        # Visual assets & images
+    └── components/    # Reusable UI components
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js `18.0.0` or higher
+- npm `9.0.0` or higher
+
+### Installation
+
+```bash
+# Navigate to the portfolio directory
+cd Portfolio
+
+# Install dependencies
+npm install
+```
+
+### Development Commands
+
+```bash
+# Start local development server with Hot Module Replacement (HMR)
+npm run dev
+
+# Lint code using Oxlint
+npm run lint
+
+# Build production distribution package
+npm run build
+
+# Preview production build locally
+npm run preview
+```
