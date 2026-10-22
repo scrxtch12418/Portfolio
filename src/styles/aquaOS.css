@@ -1,0 +1,735 @@
+/* ==========================================================================
+   MAC OS X AQUA THEME & DESKTOP SUITE — PURE VANILLA CSS (ZERO TAILWIND DEPENDENCY)
+   Rich, beautifully scaled Aqua OS for Sarvasva's Workstation Portfolio
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --aqua-font: -apple-system, BlinkMacSystemFont, "Lucida Grande", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --aqua-mono: "VT323", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --aqua-blue: #3b82f6;
+  --aqua-blue-dark: #1d4ed8;
+  --aqua-blue-glow: rgba(59, 130, 246, 0.5);
+  --aqua-gray: #e5e7eb;
+  --desktop-zoom: 1;
+
+  /* Authentic pixelated retro OS cursors */
+  --pixel-cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='24' viewBox='0 0 16 24' shape-rendering='crispEdges'%3E%3Cpath d='M0,0 L0,18 L4,14 L7,21 L10,19.5 L7,13 L12,13 Z' fill='%23ffffff' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M1,2 L1,15 L4.5,12 L7.5,18.5 L8.5,18 L5.5,11.5 L10.5,11.5 Z' fill='%23000000'/%3E%3C/svg%3E"), default;
+
+  --pixel-cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24' shape-rendering='crispEdges'%3E%3Cpath d='M6,1 L10,1 L10,8 L12,8 L12,10 L14,10 L14,12 L16,12 L16,18 L13,22 L5,22 L2,18 L2,13 L6,13 Z' fill='%23ffffff' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M7,2 L9,2 L9,9 L11,9 L11,11 L13,11 L13,13 L15,13 L15,17 L12.5,21 L5.5,21 L3,17 L3,14 L7,14 Z' fill='%23000000'/%3E%3C/svg%3E"), pointer;
+}
+
+html, body, .aqua-os-root, .aqua-desktop-surface, .aqua-desktop-scroll-container, #portfolio-showcase-root {
+  cursor: var(--pixel-cursor-default) !important;
+}
+
+button, a, .aqua-btn, .aqua-desktop-icon, .aqua-dock-btn, .aqua-dock-item, .aqua-menu-item, .retro-btn, [role="button"], input[type="submit"], input[type="button"], select, .aqua-scroll-hint-pill {
+  cursor: var(--pixel-cursor-pointer) !important;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --desktop-zoom: 1;
+  }
+}
+
+/* Base Desktop Root - Scaled down for a sleek, compact, comfortable view */
+.aqua-os-root {
+  font-family: var(--aqua-font);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: calc(100vw / var(--desktop-zoom, 1));
+  height: calc(100vh / var(--desktop-zoom, 1));
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-size: 13.5px;
+  zoom: var(--desktop-zoom, 1);
+}
+
+/* Vertical Scroll Container to seamlessly scroll from Desktop to Showcase */
+.aqua-desktop-scroll-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: absolute;
+  inset: 0;
+}
+
+.aqua-desktop-scroll-container::-webkit-scrollbar {
+  width: 7px;
+}
+.aqua-desktop-scroll-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+.aqua-desktop-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+.aqua-desktop-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Wallpaper Background & Desktop Surface */
+.aqua-desktop-surface {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+/* Pinstripe Background for Windows */
+.aqua-pinstripes {
+  background-color: #ececec;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(255, 255, 255, 0.8) 1px,
+    rgba(255, 255, 255, 0.8) 2px
+  );
+}
+
+/* ==========================================================================
+   TOP MENUBAR (SLEEK, COMPACT & CRISP)
+   ========================================================================== */
+.aqua-menubar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 27px;
+  background: linear-gradient(rgba(255, 255, 255, 0.96), rgba(235, 235, 235, 0.96) 45%, rgba(215, 215, 215, 0.96) 50%, rgba(225, 225, 225, 0.96));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  z-index: 99999;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.aqua-menu-left, .aqua-menu-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.aqua-menu-item {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.aqua-menu-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  height: 100%;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  font-family: inherit;
+  transition: background-color 0.1s ease;
+}
+
+.aqua-menu-btn:hover,
+.aqua-menu-btn.active {
+  background-color: var(--aqua-blue);
+  color: #fff;
+}
+
+.aqua-menu-btn.bold {
+  font-weight: 700;
+}
+
+.aqua-apple-icon {
+  height: 15px;
+  width: auto;
+  display: block;
+}
+
+.aqua-dropdown {
+  position: absolute;
+  top: 27px;
+  left: 0;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: none;
+  border-radius: 0 0 7px 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  min-width: 205px;
+  padding: 4px 0;
+  z-index: 100000;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.aqua-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: #111;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.08s ease, color 0.08s ease;
+}
+
+.aqua-dropdown-item:hover {
+  background-color: var(--aqua-blue);
+  color: #fff;
+}
+
+.aqua-dropdown-item.bold {
+  font-weight: 700;
+}
+
+.aqua-dropdown-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 4px 6px;
+}
+
+.aqua-clock-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111;
+  font-family: inherit;
+}
+
+.aqua-clock-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.aqua-sound-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.aqua-sound-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   DESKTOP ICONS (RIGHT EDGE VERTICAL ALIGNMENT - SLEEK & COMPACT)
+   ========================================================================== */
+.aqua-desktop-icons {
+  position: absolute;
+  top: 36px;
+  right: 18px;
+  bottom: 74px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+  align-content: flex-start;
+  gap: 14px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.aqua-desktop-icon {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px 3px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.aqua-desktop-icon:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.aqua-desktop-icon:active {
+  background-color: rgba(59, 130, 246, 0.4);
+}
+
+.aqua-desktop-icon.selected {
+  background-color: rgba(59, 130, 246, 0.45);
+}
+
+.aqua-icon-img-wrap {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.aqua-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+/* Perfect Circular Avatar styling for Sarvasva (fits the border) */
+.aqua-desktop-avatar {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  aspect-ratio: 1 / 1 !important;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.aqua-dock-avatar {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  aspect-ratio: 1 / 1 !important;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.aqua-icon-emoji {
+  font-size: 38px;
+  line-height: 1;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+.aqua-icon-label {
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.8);
+  word-break: break-word;
+  max-width: 80px;
+}
+
+.aqua-desktop-icon:hover .aqua-icon-label {
+  background-color: var(--aqua-blue);
+  text-shadow: none;
+}
+
+/* ==========================================================================
+   AQUA WINDOWS (SLEEK, COMPACT PROPORTIONS)
+   ========================================================================== */
+.aqua-window {
+  background-color: #ededed;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.8), inset 1px 0 rgba(255, 255, 255, 0.4), inset -1px 0 rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
+
+.aqua-window.active {
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55), inset 0 1px rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Aqua Titlebar */
+.aqua-titlebar {
+  cursor: move;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.8);
+  background: linear-gradient(#f8f8f8, #e8e8e8 48%, #d4d4d4 52%, #c8c8c8);
+  border-bottom: 1px solid #999;
+  height: 26px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.aqua-titlebar.active {
+  background: linear-gradient(#f8f8f8, #d8d8d8 48%, #c4c4c4 52%, #b8b8b8);
+  border-bottom-color: #777;
+}
+
+.aqua-title {
+  color: #444;
+  text-align: center;
+  pointer-events: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  position: absolute;
+  inset: 0;
+}
+
+.aqua-titlebar.active .aqua-title {
+  color: #111;
+}
+
+/* Traffic Light Buttons */
+.traffic-light-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+}
+
+.traffic-light {
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 11.5px;
+  height: 11.5px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -1px 1px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 0;
+}
+
+.traffic-light:before {
+  content: "";
+  background: linear-gradient(rgba(255, 255, 255, 0.8), transparent);
+  border-radius: 3px 3px 0 0;
+  height: 2.5px;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  right: 2px;
+}
+
+.traffic-red {
+  background: radial-gradient(circle at 35% 35%, #ff8a8a, #ff5c5c 40%, #e00000);
+  border-color: #b30000;
+}
+
+.traffic-yellow {
+  background: radial-gradient(circle at 35% 35%, #ffdf8a, #ffc95c 40%, #e09f00);
+  border-color: #b37e00;
+}
+
+.traffic-green {
+  background: radial-gradient(circle at 35% 35%, #8aff8a, #5cff5c 40%, #00e000);
+  border-color: #00b300;
+}
+
+.traffic-inactive {
+  background: radial-gradient(circle at 35% 35%, #dcdcdc, #c0c0c0 40%, #a0a0a0);
+  border-color: #888;
+}
+
+.traffic-light:active {
+  filter: brightness(0.8);
+}
+
+.traffic-icon {
+  opacity: 0;
+  color: rgba(0, 0, 0, 0.7);
+  transition: opacity 0.12s ease;
+  font-size: 7px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.traffic-light-container:hover .traffic-icon {
+  opacity: 1;
+}
+
+/* Aqua Window Content Area */
+.aqua-window-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Resize Handles */
+.aqua-resize-handle-br {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  cursor: nwse-resize;
+  z-index: 20;
+}
+
+.aqua-resize-handle-bl {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  cursor: nesw-resize;
+  z-index: 20;
+}
+
+/* ==========================================================================
+   AQUA BUTTONS & UI CONTROLS
+   ========================================================================== */
+.aqua-btn {
+  color: #111;
+  background: linear-gradient(#fafafa, #e0e0e0 48%, #cacaca 52%, #e8e8e8);
+  border: 1px solid #888;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), inset 0 -1px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.aqua-btn:hover {
+  filter: brightness(1.04);
+}
+
+.aqua-btn:active {
+  background: linear-gradient(#c4c4c4, #a8a8a8 48%, #989898 52%, #b0b0b0);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.aqua-btn.primary {
+  color: #fff;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(#a8dcf8, #3ab5f0 40%, #0084c0 60%, #1aa0e0);
+  border: 1px solid #0069a8;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.75), inset 0 -1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 150, 220, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-btn.primary:active {
+  background: linear-gradient(#0084c0, #006090 48%, #004d78 52%, #0070a8);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   GLASSY 3D SHELF DOCK (SLEEK & COMPACT)
+   ========================================================================== */
+.aqua-dock-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  pointer-events: auto;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+}
+
+/* Floating Scroll Hint Pill to guide users to Showcase below */
+.aqua-scroll-hint-pill {
+  position: absolute;
+  bottom: 68px;
+  right: 22px;
+  z-index: 8500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+  user-select: none;
+  animation: pillFloat 2.5s ease-in-out infinite;
+}
+
+.aqua-scroll-hint-pill:hover {
+  background: rgba(37, 99, 235, 0.95);
+  border-color: rgba(96, 165, 250, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+.aqua-hint-bounce {
+  display: inline-block;
+  animation: arrowBounce 1.5s ease-in-out infinite;
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@keyframes pillFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+.aqua-dock-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 5px 16px 4px 16px;
+  height: 58px;
+  background: linear-gradient(rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.18));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -3px 20px rgba(0, 0, 0, 0.35), inset 0 1px rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.aqua-dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aqua-dock-tooltip {
+  position: absolute;
+  top: -30px;
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.aqua-dock-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aqua-dock-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+.aqua-dock-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.aqua-dock-divider {
+  width: 1px;
+  height: 26px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 4px;
+  align-self: center;
+}
+
+/* ==========================================================================
+   WINDOW ANIMATIONS
+   ========================================================================== */
+@keyframes aqua-window-open {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes aqua-window-close {
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+}
+
+.window-opening {
+  animation: 0.22s cubic-bezier(0.2, 0.8, 0.25, 1) aqua-window-open;
+}
+
+.window-closing {
+  pointer-events: none;
+  animation: 0.18s cubic-bezier(0.6, 0.05, 0.8, 0.4) forwards aqua-window-close;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
