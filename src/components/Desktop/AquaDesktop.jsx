@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import AquaMenuBar from './AquaMenuBar';
 import AquaDock from './AquaDock';
 import AquaWindow from './AquaWindow';
@@ -310,14 +310,14 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
         initialY: 60
       },
       projects: {
-        title: 'Engineering Projects',
+        title: 'Projects',
         width: Math.min(700, maxW),
         height: Math.min(480, maxH),
         initialX: 85,
         initialY: 50
       },
       designs: {
-        title: 'Posters & Graphic Designs',
+        title: 'Designs',
         width: Math.min(720, maxW),
         height: Math.min(520, maxH),
         initialX: 95,
@@ -467,14 +467,17 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
       { id: 'sales-agent', name: 'Autonomous AI Sales Agent', icon: '🤖', kind: 'FastAPI / Ollama', size: '3.1 MB', date: '2026' }
     ],
     designs: [
-      { id: 'des-1', name: 'Dia de Muertos Quiz.png', thumbnail: '/images/dia_de_muertos_quiz.png', kind: 'PNG Image', size: '306 KB', date: 'Oct 2024' },
-      { id: 'des-2', name: 'Motley Crew Quiz.png', thumbnail: '/images/motley_crew_quiz.png', kind: 'PNG Image', size: '494 KB', date: 'Nov 2024' },
-      { id: 'des-3', name: 'Nutella Quiz.png', thumbnail: '/images/nutella_quiz.png', kind: 'PNG Image', size: '249 KB', date: 'Sep 2024' },
-      { id: 'des-4', name: 'Rewind Quiz.png', thumbnail: '/images/rewind_quiz.png', kind: 'PNG Image', size: '259 KB', date: 'Aug 2024' },
-      { id: 'des-5', name: 'Starter Quiz.png', thumbnail: '/images/starter_quiz.png', kind: 'PNG Image', size: '342 KB', date: 'Jul 2024' },
-      { id: 'des-6', name: 'Videogames Quiz.png', thumbnail: '/images/videogames_quiz.png', kind: 'PNG Image', size: '388 KB', date: 'Dec 2024' },
-      { id: 'des-7', name: 'The Office Quiz.png', thumbnail: '/images/theoffice_quiz.png', kind: 'PNG Image', size: '399 KB', date: 'Jan 2025' },
-      { id: 'des-8', name: 'Studio 99 Identity.png', thumbnail: '/images/studio99.png', kind: 'PNG Image', size: '247 KB', date: 'Feb 2025' }
+      { id: 'des-1', name: 'Dia de Muertos Quiz.png', thumbnail: '/images/dia_de_muertos_quiz.png', src: '/images/dia_de_muertos_quiz.png', kind: 'PNG Image', size: '306 KB', date: 'Oct 2024' },
+      { id: 'des-2', name: 'The Starter Quiz.png', thumbnail: '/images/starter_quiz.png', src: '/images/starter_quiz.png', kind: 'PNG Image', size: '342 KB', date: 'Jul 2024' },
+      { id: 'des-3', name: 'Kaun Banega Khiladi Quiz.png', thumbnail: '/images/kbk_quiz.png', src: '/images/kbk_quiz.png', kind: 'PNG Image', size: '855 KB', date: '2024' },
+      { id: 'des-4', name: 'Rewind Quiz.png', thumbnail: '/images/rewind_quiz.png', src: '/images/rewind_quiz.png', kind: 'PNG Image', size: '259 KB', date: 'Aug 2024' },
+      { id: 'des-5', name: 'Studio 99 Identity.png', thumbnail: '/images/studio99.png', src: '/images/studio99.png', kind: 'PNG Image', size: '247 KB', date: 'Feb 2025' },
+      { id: 'des-6', name: 'Videogames Quiz.png', thumbnail: '/images/videogames_quiz.png', src: '/images/videogames_quiz.png', kind: 'PNG Image', size: '388 KB', date: 'Dec 2024' },
+      { id: 'des-7', name: 'The Office Quiz.png', thumbnail: '/images/theoffice_quiz.png', src: '/images/theoffice_quiz.png', kind: 'PNG Image', size: '399 KB', date: 'Jan 2025' },
+      { id: 'des-8', name: 'Grey Matter — Liquid.png', thumbnail: '/images/join_us_liquid.png', src: '/images/join_us_liquid.png', kind: 'PNG Image', size: '473 KB', date: '2025' },
+      { id: 'des-9', name: 'Grey Matter — Waves.png', thumbnail: '/images/join_us_waves.png', src: '/images/join_us_waves.png', kind: 'PNG Image', size: '606 KB', date: '2025' },
+      { id: 'des-10', name: 'Motley Crew Quiz.png', thumbnail: '/images/motley_crew_quiz.png', src: '/images/motley_crew_quiz.png', kind: 'PNG Image', size: '494 KB', date: 'Nov 2024' },
+      { id: 'des-11', name: 'Nutella Quiz.png', thumbnail: '/images/nutella_quiz.png', src: '/images/nutella_quiz.png', kind: 'PNG Image', size: '249 KB', date: 'Sep 2024' }
     ],
     speaking: [
       { id: 'spk-1', name: 'NMAMIT Model United Nations (MUN).jpeg', thumbnail: '/images/speaking_mun_1.jpeg', kind: 'JPEG Photo', size: '67 KB', date: '2024' },
@@ -498,11 +501,12 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
     ]
   };
 
-  // Right Edge Desktop Icons Configuration (Macintosh HD removed as requested)
+  // Desktop Icons Configuration: Folders & System Items
+  // All photos are housed inside the 'Designs' folder, and all projects inside the 'Projects' folder
   const desktopIcons = [
     { id: 'profile', label: 'Sarvasva', iconSrc: '/images/user_profile.png', action: () => openWindow('about') },
     { id: 'projects', label: 'Projects', iconEmoji: '💼', action: () => openWindow('projects') },
-    { id: 'designs', label: 'Posters & Art', iconEmoji: '🎨', action: () => openWindow('designs') },
+    { id: 'designs', label: 'Designs', iconEmoji: '🎨', action: () => openWindow('designs') },
     { id: 'speaking', label: 'Speaking', iconEmoji: '🎤', action: () => openWindow('speaking') },
     { id: 'certs', label: 'Certifications', iconEmoji: '📜', action: () => openWindow('certs') },
     { id: 'games', label: 'Arcade Games', iconEmoji: '🕹️', action: () => openWindow('games') },
@@ -515,7 +519,29 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
 
   const desktopScrollContainerRef = useRef(null);
 
+  // Elastic scroll resistance state & physics
+  const [pullOffset, setPullOffset] = useState(0);
+  const [pullProgress, setPullProgress] = useState(0);
+  const [isPulling, setIsPulling] = useState(false);
+
+  const accumulatedDeltaRef = useRef(0);
+  const decayTimeoutRef = useRef(null);
+  const isUnlockingRef = useRef(false);
+  const touchStartYRef = useRef(0);
+  const touchStartXRef = useRef(0);
+  const isTouchActiveRef = useRef(false);
+
   const scrollToShowcase = () => {
+    if (desktopScrollContainerRef.current) {
+      const el = document.getElementById('portfolio-showcase-root');
+      if (el) {
+        desktopScrollContainerRef.current.scrollTo({
+          top: el.offsetTop,
+          behavior: 'smooth'
+        });
+        return;
+      }
+    }
     const el = document.getElementById('portfolio-showcase-root');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -537,6 +563,187 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
     }, 380);
   };
 
+  // Scroll resistance: intercept downward scrolling from the desktop surface
+  // Require intentional scroll force before allowing scroll into portfolio showcase
+  useEffect(() => {
+    const container = desktopScrollContainerRef.current;
+    if (!container) return;
+
+    // Resistance threshold in scroll delta units (~2-3 deliberate wheel clicks or intentional trackpad swipe)
+    const RESISTANCE_THRESHOLD = 260;
+
+    const isInsideScrollableChild = (target, deltaY) => {
+      let curr = target;
+      while (curr && curr !== container && curr !== document.body) {
+        if (curr.classList && (curr.classList.contains('aqua-game-container') || curr.tagName === 'CANVAS')) {
+          return true;
+        }
+        try {
+          const style = window.getComputedStyle(curr);
+          const overflowY = style.overflowY;
+          if (overflowY === 'auto' || overflowY === 'scroll') {
+            const maxScrollTop = curr.scrollHeight - curr.clientHeight;
+            if (maxScrollTop > 2) {
+              if (deltaY > 0 && curr.scrollTop < maxScrollTop - 2) {
+                return true;
+              }
+              if (deltaY < 0 && curr.scrollTop > 2) {
+                return true;
+              }
+            }
+          }
+        } catch {}
+        curr = curr.parentElement;
+      }
+      return false;
+    };
+
+    const handleWheel = (e) => {
+      // If already scrolled into showcase, allow full natural scrolling
+      if (container.scrollTop > 8) {
+        return;
+      }
+
+      // If scrolling upward while on desktop, decay any tension
+      if (e.deltaY <= 0) {
+        if (accumulatedDeltaRef.current > 0) {
+          accumulatedDeltaRef.current = Math.max(0, accumulatedDeltaRef.current + e.deltaY);
+          const progress = Math.min(1, accumulatedDeltaRef.current / RESISTANCE_THRESHOLD);
+          const offset = -Math.min(46, Math.pow(accumulatedDeltaRef.current, 0.58) * 1.5);
+          setPullProgress(progress);
+          setPullOffset(offset);
+          if (accumulatedDeltaRef.current === 0) {
+            setIsPulling(false);
+          }
+        }
+        return;
+      }
+
+      // If cursor is over a scrollable inner element (e.g. folder contents, preview, terminal), don't intercept
+      if (isInsideScrollableChild(e.target, e.deltaY)) {
+        return;
+      }
+
+      // If currently animating transition to showcase, ignore subsequent wheel events
+      if (isUnlockingRef.current) {
+        return;
+      }
+
+      // Intercept downward wheel event and accumulate resistance tension
+      e.preventDefault();
+
+      accumulatedDeltaRef.current += e.deltaY;
+      const progress = Math.min(1, accumulatedDeltaRef.current / RESISTANCE_THRESHOLD);
+      const offset = -Math.min(46, Math.pow(accumulatedDeltaRef.current, 0.58) * 1.5);
+
+      setIsPulling(true);
+      setPullOffset(offset);
+      setPullProgress(progress);
+
+      if (decayTimeoutRef.current) {
+        clearTimeout(decayTimeoutRef.current);
+      }
+
+      if (accumulatedDeltaRef.current >= RESISTANCE_THRESHOLD) {
+        // Resistance broken! Smoothly unlock transition into showcase
+        isUnlockingRef.current = true;
+        setIsPulling(false);
+        setPullOffset(0);
+        setPullProgress(0);
+        accumulatedDeltaRef.current = 0;
+        playSfx('pop');
+        scrollToShowcase();
+        setTimeout(() => {
+          isUnlockingRef.current = false;
+        }, 900);
+      } else {
+        // If user pauses or stops scrolling before breaking resistance, bounce back
+        decayTimeoutRef.current = setTimeout(() => {
+          accumulatedDeltaRef.current = 0;
+          setIsPulling(false);
+          setPullOffset(0);
+          setPullProgress(0);
+        }, 340);
+      }
+    };
+
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches.length > 0) {
+        touchStartYRef.current = e.touches[0].clientY;
+        touchStartXRef.current = e.touches[0].clientX;
+        isTouchActiveRef.current = true;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isTouchActiveRef.current || container.scrollTop > 8 || isUnlockingRef.current) {
+        return;
+      }
+
+      const touchY = e.touches[0].clientY;
+      const touchX = e.touches[0].clientX;
+      const deltaY = touchStartYRef.current - touchY;
+      const deltaX = Math.abs(touchStartXRef.current - touchX);
+
+      // Swiping up to scroll down
+      if (deltaY > 0 && deltaY > deltaX) {
+        if (isInsideScrollableChild(e.target, deltaY)) {
+          return;
+        }
+
+        e.preventDefault();
+        const TOUCH_THRESHOLD = 140;
+        const progress = Math.min(1, deltaY / TOUCH_THRESHOLD);
+        const offset = -Math.min(46, Math.pow(deltaY, 0.65) * 1.4);
+
+        setIsPulling(true);
+        setPullOffset(offset);
+        setPullProgress(progress);
+
+        if (deltaY >= TOUCH_THRESHOLD) {
+          isUnlockingRef.current = true;
+          isTouchActiveRef.current = false;
+          setIsPulling(false);
+          setPullOffset(0);
+          setPullProgress(0);
+          playSfx('pop');
+          scrollToShowcase();
+          setTimeout(() => {
+            isUnlockingRef.current = false;
+          }, 900);
+        }
+      }
+    };
+
+    const handleTouchEnd = () => {
+      if (isTouchActiveRef.current) {
+        isTouchActiveRef.current = false;
+        if (!isUnlockingRef.current) {
+          setIsPulling(false);
+          setPullOffset(0);
+          setPullProgress(0);
+        }
+      }
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    container.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchcancel', handleTouchEnd);
+      if (decayTimeoutRef.current) {
+        clearTimeout(decayTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div
       ref={desktopScrollContainerRef}
@@ -547,7 +754,9 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
         style={{
           backgroundImage: `url('${WALLPAPERS[wallpaper] || WALLPAPERS.aqua}')`,
           fontSize: `${fontScale}%`,
-          filter: (nightTint || theme === 'dark') ? 'brightness(0.88) contrast(1.05)' : 'none'
+          filter: (nightTint || theme === 'dark') ? 'brightness(0.88) contrast(1.05)' : 'none',
+          transform: pullOffset ? `translateY(${pullOffset}px)` : 'none',
+          transition: isPulling ? 'none' : 'transform 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
         }}
         onClick={() => setSelectedDesktopIcon(null)}
       >
@@ -587,26 +796,28 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
               key={item.id}
               onClick={() => {
                 playSfx('click');
-                setSelectedDesktopIcon(item.id);
+                if (selectedDesktopIcon === item.id) {
+                  item.action();
+                } else {
+                  setSelectedDesktopIcon(item.id);
+                }
               }}
               onDoubleClick={item.action}
               className={`aqua-desktop-icon ${isSelected ? 'selected' : ''}`}
+              title={`Click to select, double-click or click again to open ${item.label}`}
             >
               <div className="aqua-icon-img-wrap">
                 {item.iconSrc ? (
                   <img
                     src={item.iconSrc}
                     alt={item.label}
-                    className={`aqua-icon-img ${item.id === 'profile' ? 'aqua-desktop-avatar' : ''}`}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
-                    }}
+                    className={`aqua-icon-img ${item.id === 'profile' ? 'aqua-desktop-avatar' : ''} ${item.isPhoto ? 'aqua-desktop-photo' : ''}`}
                   />
-                ) : null}
-                <span className={`aqua-icon-emoji ${item.iconSrc ? 'hidden' : ''}`}>
-                  {item.iconEmoji || '📁'}
-                </span>
+                ) : (
+                  <span className="aqua-icon-emoji">
+                    {item.iconEmoji || '📁'}
+                  </span>
+                )}
               </div>
               <span className="aqua-icon-label">
                 {item.label}
@@ -745,13 +956,32 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
 
       {/* Floating Scroll Indicator Pill */}
       <div
-        className="aqua-scroll-hint-pill"
+        className={`aqua-scroll-hint-pill ${pullProgress > 0 ? 'pulling' : ''}`}
         onClick={scrollToShowcase}
         title="Scroll down for Portfolio Showcase"
       >
         <span className="aqua-hint-bounce">↓</span>
         <span>Showcase & Works</span>
       </div>
+
+      {/* Resistance Tension Feedback Indicator */}
+      {pullProgress > 0 && (
+        <div className={`aqua-scroll-resistance-hud ${pullProgress >= 1 ? 'ready' : ''}`}>
+          <div className="aqua-resistance-header">
+            <span className="aqua-resistance-arrow">⇣</span>
+            <span className="aqua-resistance-text">
+              {pullProgress >= 1 ? 'Release or push to enter Portfolio' : 'Scroll down to enter Portfolio'}
+            </span>
+            <span className="aqua-resistance-badge">{Math.round(pullProgress * 100)}%</span>
+          </div>
+          <div className="aqua-resistance-track">
+            <div
+              className="aqua-resistance-bar"
+              style={{ width: `${Math.min(100, Math.round(pullProgress * 100))}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Dashboard Overlay */}
       <AquaDashboard
