@@ -11,7 +11,7 @@ export default function AquaPreviewApp({
   const [rotation, setRotation] = useState(0);
 
   const currentItem = items.length > 0 ? items[currentIndex] : null;
-  const activeSrc = currentItem?.src || currentItem?.thumbnail || imageSrc || '/images/user_profile.png';
+  const activeSrc = currentItem?.src || currentItem?.thumbnail || imageSrc || '/images/user_profile.webp';
   const activeTitle = currentItem?.name || currentItem?.title || title;
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.25, 3));

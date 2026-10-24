@@ -155,12 +155,18 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Windows State - Sleek, compact desktop windows (~30% smaller UI)
+  // Windows State - Sleek, compact desktop windows (Responsive on mobile viewports)
   const [windows, setWindows] = useState(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640;
     const zoomVal = 1;
-    const defaultW = typeof window !== 'undefined' ? Math.min(680, (window.innerWidth / zoomVal) - 24) : 680;
-    const defaultH = typeof window !== 'undefined' ? Math.min(500, (window.innerHeight / zoomVal) - 68) : 500;
-    const startX = typeof window !== 'undefined' ? Math.max(24, Math.round(((window.innerWidth / zoomVal) - defaultW) / 2) - 30) : 56;
+    const defaultW = typeof window !== 'undefined'
+      ? (isMobile ? window.innerWidth - 16 : Math.min(680, (window.innerWidth / zoomVal) - 24))
+      : 680;
+    const defaultH = typeof window !== 'undefined'
+      ? (isMobile ? window.innerHeight - 92 : Math.min(500, (window.innerHeight / zoomVal) - 68))
+      : 500;
+    const startX = isMobile ? 8 : (typeof window !== 'undefined' ? Math.max(24, Math.round(((window.innerWidth / zoomVal) - defaultW) / 2) - 30) : 56);
+    const startY = isMobile ? 32 : 46;
     return [
       {
         id: 'about',
@@ -169,7 +175,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
         width: defaultW,
         height: defaultH,
         initialX: startX,
-        initialY: 46,
+        initialY: startY,
         zIndex: 10,
         isMinimized: false
       }
@@ -252,12 +258,13 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
     highestZ.current += 1;
     const newZ = highestZ.current;
 
+    const isMobileScreen = typeof window !== 'undefined' && window.innerWidth <= 640;
     const zoomVal = parseFloat(desktopZoom) || 1;
     const maxW = typeof window !== 'undefined' ? (window.innerWidth / zoomVal) - 24 : 1000;
     const maxH = typeof window !== 'undefined' ? (window.innerHeight / zoomVal) - 68 : 700;
-    const winW = Math.min(680, maxW);
-    const winH = Math.min(500, maxH);
-    const centerX = Math.max(24, Math.round((maxW - winW) / 2) - 30);
+    const winW = isMobileScreen ? Math.min(window.innerWidth - 16, 680) : Math.min(680, maxW);
+    const winH = isMobileScreen ? Math.min(window.innerHeight - 92, 500) : Math.min(500, maxH);
+    const centerX = isMobileScreen ? 8 : Math.max(24, Math.round((maxW - winW) / 2) - 30);
 
     const configs = {
       about: {
@@ -432,10 +439,19 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
       initialY: 60
     };
 
+    const finalInitialX = isMobileScreen ? 8 : (cfg.initialX ?? centerX);
+    const finalInitialY = isMobileScreen ? 32 : (cfg.initialY ?? 46);
+    const finalW = isMobileScreen ? Math.min(window.innerWidth - 16, cfg.width || winW) : (cfg.width || winW);
+    const finalH = isMobileScreen ? Math.min(window.innerHeight - 92, cfg.height || winH) : (cfg.height || winH);
+
     const newWin = {
       id,
       type,
       ...cfg,
+      width: finalW,
+      height: finalH,
+      initialX: finalInitialX,
+      initialY: finalInitialY,
       ...customProps,
       zIndex: newZ,
       isMinimized: false
@@ -803,7 +819,8 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
               key={item.id}
               onClick={() => {
                 playSfx('click');
-                if (selectedDesktopIcon === item.id) {
+                const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 640);
+                if (isTouch || selectedDesktopIcon === item.id) {
                   item.action();
                 } else {
                   setSelectedDesktopIcon(item.id);

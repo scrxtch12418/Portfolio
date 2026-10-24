@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 function DockItem({
   title,
@@ -6,15 +6,16 @@ function DockItem({
   fallbackEmoji,
   onClick,
   mouseX,
-  isOpen = false
+  isOpen = false,
+  isMobile = false
 }) {
   const itemRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isBouncing, setIsBouncing] = useState(false);
 
   // Compute magnified size based on distance to mouseX (compact dock sizing)
-  let itemSize = 46;
-  if (itemRef.current && mouseX !== Infinity && mouseX !== null) {
+  let itemSize = isMobile ? 38 : 46;
+  if (!isMobile && itemRef.current && mouseX !== Infinity && mouseX !== null) {
     const rect = itemRef.current.getBoundingClientRect();
     const itemCenter = rect.left + rect.width / 2;
     const dist = Math.abs(mouseX - itemCenter);
@@ -34,11 +35,11 @@ function DockItem({
     <div
       ref={itemRef}
       className="aqua-dock-item"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
     >
       {/* Tooltip on hover */}
-      {isHovered && (
+      {isHovered && !isMobile && (
         <div className="aqua-dock-tooltip">
           {title}
         </div>
@@ -105,6 +106,20 @@ export default function AquaDock({
   onRestoreWindow
 }) {
   const [mouseX, setMouseX] = useState(Infinity);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= 640;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const isOpen = (type) => openWindows.includes(type);
 
@@ -139,7 +154,7 @@ export default function AquaDock({
     <div className="aqua-dock-wrapper">
       <div
         className="aqua-dock-container"
-        onMouseMove={(e) => setMouseX(e.clientX)}
+        onMouseMove={(e) => { if (!isMobile) setMouseX(e.clientX); }}
         onMouseLeave={() => setMouseX(Infinity)}
       >
         <DockItem
@@ -149,6 +164,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('about')}
           mouseX={mouseX}
           isOpen={isOpen('about')}
+          isMobile={isMobile}
         />
         <DockItem
           title="LLM Security Framework"
@@ -157,6 +173,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('llm-security')}
           mouseX={mouseX}
           isOpen={isOpen('llm-security')}
+          isMobile={isMobile}
         />
         <DockItem
           title="RAT Research Lab"
@@ -165,6 +182,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('rat-research')}
           mouseX={mouseX}
           isOpen={isOpen('rat-research')}
+          isMobile={isMobile}
         />
         <DockItem
           title="ADHD Focus Extension"
@@ -173,6 +191,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('focus-extension')}
           mouseX={mouseX}
           isOpen={isOpen('focus-extension')}
+          isMobile={isMobile}
         />
         <DockItem
           title="Stuck in Space (Godot Game)"
@@ -181,6 +200,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('stuck-in-space')}
           mouseX={mouseX}
           isOpen={isOpen('stuck-in-space')}
+          isMobile={isMobile}
         />
         <DockItem
           title="AI Sales Agent"
@@ -188,6 +208,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('sales-agent')}
           mouseX={mouseX}
           isOpen={isOpen('sales-agent')}
+          isMobile={isMobile}
         />
 
         {/* Divider */}
@@ -200,6 +221,7 @@ export default function AquaDock({
           onClick={() => onOpenWindow('contact')}
           mouseX={mouseX}
           isOpen={isOpen('contact')}
+          isMobile={isMobile}
         />
 
         {/* Minimized Windows in Dock */}
@@ -217,6 +239,7 @@ export default function AquaDock({
                   onClick={() => onRestoreWindow?.(win.id)}
                   mouseX={mouseX}
                   isOpen={true}
+                  isMobile={isMobile}
                 />
               );
             })}

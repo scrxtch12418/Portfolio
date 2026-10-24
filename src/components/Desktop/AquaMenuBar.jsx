@@ -221,7 +221,7 @@ export default function AquaMenuBar({
         </div>
 
         {/* View Menu */}
-        <div className="aqua-menu-item">
+        <div className="aqua-menu-item desktop-only">
           <button
             type="button"
             className={`aqua-menu-btn ${activeMenu === 'view' ? 'active' : ''}`}
@@ -318,7 +318,7 @@ export default function AquaMenuBar({
         </div>
 
         {/* Go Menu */}
-        <div className="aqua-menu-item">
+        <div className="aqua-menu-item desktop-only">
           <button
             type="button"
             className={`aqua-menu-btn ${activeMenu === 'go' ? 'active' : ''}`}
@@ -376,7 +376,7 @@ export default function AquaMenuBar({
         </div>
 
         {/* Arcade Games Menu */}
-        <div className="aqua-menu-item">
+        <div className="aqua-menu-item desktop-tablet-only">
           <button
             type="button"
             className={`aqua-menu-btn ${activeMenu === 'arcade' ? 'active' : ''}`}
@@ -426,7 +426,7 @@ export default function AquaMenuBar({
         </div>
 
         {/* Socials Menu */}
-        <div className="aqua-menu-item">
+        <div className="aqua-menu-item desktop-tablet-only">
           <button
             type="button"
             className={`aqua-menu-btn ${activeMenu === 'socials' ? 'active' : ''}`}
@@ -493,8 +493,8 @@ export default function AquaMenuBar({
           onClick={onTriggerMatrix}
           title="Click to enter the Matrix!"
         >
-          <span>{dayString} </span>
-          <span>{timeString}</span>
+          <span className="aqua-clock-day">{dayString} </span>
+          <span className="aqua-clock-time">{timeString}</span>
         </button>
       </div>
     </header>

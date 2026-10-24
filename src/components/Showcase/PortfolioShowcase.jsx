@@ -139,7 +139,7 @@ export default function PortfolioShowcase({
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img
-            src="/images/user_profile.png"
+            src="/images/user_profile.webp"
             alt="Sarvasva"
             style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', border: '2px solid #38bdf8' }}
           />

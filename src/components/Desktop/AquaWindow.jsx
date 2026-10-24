@@ -25,6 +25,21 @@ export default function AquaWindow({
     return { x: initialX, y: initialY };
   });
 
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= 640;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [isDragging, setIsDragging] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -54,7 +69,7 @@ export default function AquaWindow({
   };
 
   const handleTitlePointerDown = (e) => {
-    if (e.target.closest('.no-drag') || isZoomed) return;
+    if (e.target.closest('.no-drag') || isZoomed || isMobile) return;
     onFocus?.();
     if (!isDragging) {
       setIsDragging(true);
@@ -113,6 +128,7 @@ export default function AquaWindow({
 
   // Corner resize handling
   const startResize = (mode) => (e) => {
+    if (isMobile) return;
     e.preventDefault();
     e.stopPropagation();
     onFocus?.();
@@ -174,7 +190,29 @@ export default function AquaWindow({
     };
   }, [resizeMode]);
 
-  const zoomedStyle = {
+  const mobileNormalStyle = {
+    position: 'absolute',
+    left: '8px',
+    top: '32px',
+    width: 'calc(100% - 16px)',
+    maxWidth: 'calc(100vw - 16px)',
+    height: 'calc(100% - 92px)',
+    maxHeight: 'calc(100vh - 92px)',
+    borderRadius: '8px'
+  };
+
+  const mobileZoomedStyle = {
+    position: 'absolute',
+    left: '4px',
+    top: '28px',
+    width: 'calc(100% - 8px)',
+    maxWidth: 'calc(100vw - 8px)',
+    height: 'calc(100% - 32px)',
+    maxHeight: 'calc(100vh - 32px)',
+    borderRadius: '6px'
+  };
+
+  const desktopZoomedStyle = {
     position: 'absolute',
     left: '10px',
     top: '32px',
@@ -184,7 +222,7 @@ export default function AquaWindow({
     maxHeight: 'calc(100vh - 100px)'
   };
 
-  const normalStyle = {
+  const desktopNormalStyle = {
     position: 'absolute',
     left: `${pos.x}px`,
     top: `${pos.y}px`,
@@ -194,7 +232,9 @@ export default function AquaWindow({
     maxHeight: 'calc(100vh - 100px)'
   };
 
-  const windowStyle = isZoomed ? zoomedStyle : normalStyle;
+  const windowStyle = isMobile
+    ? (isZoomed ? mobileZoomedStyle : mobileNormalStyle)
+    : (isZoomed ? desktopZoomedStyle : desktopNormalStyle);
 
   return (
     <div
@@ -261,7 +301,7 @@ export default function AquaWindow({
       </div>
 
       {/* Resize handles */}
-      {!isZoomed && (
+      {!isZoomed && !isMobile && (
         <>
           <div
             className="aqua-resize-handle-br no-drag"
