@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { soundManager } from '../../utils/soundManager';
+import VirtualGamepad from './VirtualGamepad';
 
 export default function HackerRunnerGame() {
   const canvasRef = useRef(null);
@@ -168,12 +169,16 @@ export default function HackerRunnerGame() {
         <button className="retro-btn" onClick={jump}>JUMP (SPACE / CLICK)</button>
       </div>
 
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', width: '100%', maxWidth: 600 }}>
         <canvas
           ref={canvasRef}
           width={600}
           height={200}
           onClick={jump}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            jump();
+          }}
           style={{
             display: 'block',
             maxWidth: '100%',
@@ -181,7 +186,8 @@ export default function HackerRunnerGame() {
             background: '#050505',
             cursor: 'pointer',
             border: '2px solid #00ffea',
-            borderRadius: 6
+            borderRadius: 6,
+            touchAction: 'none'
           }}
         />
 
@@ -207,8 +213,18 @@ export default function HackerRunnerGame() {
         )}
       </div>
 
+      {/* Retro Arcade JUMP Action Control */}
+      <VirtualGamepad
+        showDpad={false}
+        actions={[
+          { id: 'jump', label: '▲', sublabel: 'JUMP', color: 'red', onClick: jump }
+        ]}
+        onReset={resetGame}
+        resetLabel="Restart"
+      />
+
       <div style={{ marginTop: 8, fontSize: 11, color: '#888', textAlign: 'center' }}>
-        Tap screen, click canvas, or hit Spacebar / Up Arrow to leap over incoming spikes!
+        Tap canvas, hit the Jump button, or press Spacebar / Up Arrow to leap over obstacles!
       </div>
     </div>
   );

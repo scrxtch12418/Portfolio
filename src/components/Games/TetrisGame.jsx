@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { soundManager } from '../../utils/soundManager';
+import VirtualGamepad from './VirtualGamepad';
 
 const COLS = 10;
 const ROWS = 20;
@@ -189,7 +190,7 @@ export default function TetrisGame() {
   }, [handleDrop, level, isGameOver, isPaused]);
 
   const resetGame = () => {
-    playClick();
+    soundManager.playClick();
     setGrid(Array.from({ length: ROWS }, () => Array(COLS).fill(0)));
     setScore(0);
     setLines(0);
@@ -197,6 +198,37 @@ export default function TetrisGame() {
     setIsGameOver(false);
     setIsPaused(false);
     spawnPiece();
+  };
+
+  const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      touchStartRef.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        time: Date.now()
+      };
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    const dt = Date.now() - touchStartRef.current.time;
+
+    // Quick tap on board rotates piece
+    if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && dt < 280) {
+      handleRotate();
+      return;
+    }
+
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 16) {
+      handleMove(dx > 0 ? 1 : -1);
+    } else if (dy > 20) {
+      handleDrop();
+    }
   };
 
   // Compose display matrix including falling piece
@@ -221,9 +253,19 @@ export default function TetrisGame() {
         <span>SCORE: <b>{score}</b></span>
         <span>LINES: <b>{lines}</b></span>
         <span>LVL: <b>{level}</b></span>
+        <button
+          type="button"
+          className="arcade-pill-btn"
+          style={{ padding: '2px 8px', fontSize: 10 }}
+          onClick={() => setIsPaused(p => !p)}
+        >
+          {isPaused ? '▶ RESUME' : '⏸ PAUSE'}
+        </button>
       </div>
 
       <div
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         style={{
           position: 'relative',
           width: 220,
@@ -233,7 +275,8 @@ export default function TetrisGame() {
           display: 'grid',
           gridTemplateColumns: `repeat(${COLS}, 1fr)`,
           gridTemplateRows: `repeat(${ROWS}, 1fr)`,
-          gap: 1
+          gap: 1,
+          touchAction: 'none'
         }}
       >
         {displayGrid.map((row, r) =>
@@ -271,13 +314,22 @@ export default function TetrisGame() {
         )}
       </div>
 
-      {/* Touch Buttons */}
-      <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button className="retro-btn" onClick={() => handleMove(-1)}>◀ Left</button>
-        <button className="retro-btn" onClick={handleRotate}>↻ Rotate</button>
-        <button className="retro-btn" onClick={() => handleMove(1)}>Right ▶</button>
-        <button className="retro-btn" onClick={handleDrop}>▼ Drop</button>
-        <button className="retro-btn" onClick={handleHardDrop}>⬇ Fall</button>
+      {/* Retro Arcade Virtual Gamepad */}
+      <VirtualGamepad
+        onUp={handleRotate}
+        onDown={handleDrop}
+        onLeft={() => handleMove(-1)}
+        onRight={() => handleMove(1)}
+        actions={[
+          { id: 'rotate', label: '↻', sublabel: 'ROTATE', color: 'red', onClick: handleRotate },
+          { id: 'fall', label: '⬇', sublabel: 'HARD DROP', color: 'blue', onClick: handleHardDrop }
+        ]}
+        onReset={resetGame}
+        resetLabel="Reset"
+      />
+
+      <div style={{ fontSize: 11, color: '#9ca3af', fontFamily: 'monospace', textAlign: 'center', marginTop: 4 }}>
+        Tap board to rotate, swipe left/right/down, or use Virtual Controller!
       </div>
     </div>
   );

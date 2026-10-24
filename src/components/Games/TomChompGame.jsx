@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { soundManager } from '../../utils/soundManager';
+import VirtualGamepad from './VirtualGamepad';
 
 const TILE_SIZE = 20;
 const COLS = 19;
@@ -60,6 +61,25 @@ export default function TomChompGame() {
 
   const handleSetDirection = (dx, dy) => {
     inputDirRef.current = { dx, dy };
+  };
+
+  const touchStartRef = useRef({ x: 0, y: 0 });
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 18) {
+      handleSetDirection(dx > 0 ? 1 : -1, 0);
+    } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 18) {
+      handleSetDirection(0, dy > 0 ? 1 : -1);
+    }
   };
 
   useEffect(() => {
@@ -413,8 +433,12 @@ export default function TomChompGame() {
         <span style={{ color: '#38bdf8' }}>HIGH: {highScore}</span>
       </div>
 
-      <div style={{ position: 'relative', border: '2px solid #2563eb', borderRadius: 4, overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.6)' }}>
-        <canvas ref={canvasRef} style={{ display: 'block' }} />
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ position: 'relative', border: '2px solid #2563eb', borderRadius: 4, overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.6)', touchAction: 'none' }}
+      >
+        <canvas ref={canvasRef} style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />
 
         {gameOver && (
           <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#ffffff', gap: 8, fontFamily: 'monospace', backdropFilter: 'blur(3px)' }}>
@@ -447,58 +471,18 @@ export default function TomChompGame() {
         )}
       </div>
 
-      {/* On-Screen D-Pad Controls for Trackpad, Mouse & Mobile */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 4 }}>
-        <button
-          type="button"
-          onClick={() => handleSetDirection(-1, 0)}
-          className="aqua-btn"
-          style={{ width: 44, height: 34, fontSize: 14, fontWeight: 800, padding: 0, cursor: 'pointer' }}
-          title="Move Left"
-        >
-          ◀
-        </button>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <button
-            type="button"
-            onClick={() => handleSetDirection(0, -1)}
-            className="aqua-btn"
-            style={{ width: 44, height: 32, fontSize: 14, fontWeight: 800, padding: 0, cursor: 'pointer' }}
-            title="Move Up"
-          >
-            ▲
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSetDirection(0, 1)}
-            className="aqua-btn"
-            style={{ width: 44, height: 32, fontSize: 14, fontWeight: 800, padding: 0, cursor: 'pointer' }}
-            title="Move Down"
-          >
-            ▼
-          </button>
-        </div>
-        <button
-          type="button"
-          onClick={() => handleSetDirection(1, 0)}
-          className="aqua-btn"
-          style={{ width: 44, height: 34, fontSize: 14, fontWeight: 800, padding: 0, cursor: 'pointer' }}
-          title="Move Right"
-        >
-          ▶
-        </button>
-        <button
-          type="button"
-          onClick={restartGame}
-          className="aqua-btn"
-          style={{ height: 34, fontSize: 11, fontWeight: 700, padding: '0 12px', marginLeft: 8, cursor: 'pointer' }}
-        >
-          ↺ Reset
-        </button>
-      </div>
+      {/* Retro Arcade Virtual Gamepad */}
+      <VirtualGamepad
+        onUp={() => handleSetDirection(0, -1)}
+        onDown={() => handleSetDirection(0, 1)}
+        onLeft={() => handleSetDirection(-1, 0)}
+        onRight={() => handleSetDirection(1, 0)}
+        onReset={restartGame}
+        resetLabel="Reset"
+      />
 
       <div style={{ fontSize: 11, color: '#9ca3af', fontFamily: 'monospace', textAlign: 'center' }}>
-        Arrow Keys or WASD or D-Pad • Chomp dots &amp; eat flashing Power Pellets!
+        Swipe on screen, use Arrow Keys / WASD, or tap the Virtual D-Pad to steer!
       </div>
     </div>
   );

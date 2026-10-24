@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { soundManager } from '../../utils/soundManager';
+import VirtualGamepad from './VirtualGamepad';
 
 // Level layout templates (1 = normal brick, 2 = durable 2-hit brick, 0 = empty)
 const LEVEL_LAYOUTS = [
@@ -73,6 +74,7 @@ const ROW_COLORS = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6'];
 
 export default function BricklowGame() {
   const canvasRef = useRef(null);
+  const movePaddleDeltaRef = useRef(null);
   const [score, setScore] = useState(0);
   const [levelIndex, setLevelIndex] = useState(0);
   const [lives, setLives] = useState(3);
@@ -163,9 +165,27 @@ export default function BricklowGame() {
       }
     };
 
+    const movePaddleDelta = (delta) => {
+      paddleX = Math.max(0, Math.min(paddleX + delta, canvas.width - paddleW));
+    };
+    movePaddleDeltaRef.current = movePaddleDelta;
+
+    const handleTouch = (e) => {
+      if (e.touches && e.touches.length > 0) {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touchX = e.touches[0].clientX - rect.left;
+        const scale = canvas.width / rect.width;
+        const relativeX = touchX * scale;
+        paddleX = Math.max(0, Math.min(relativeX - paddleW / 2, canvas.width - paddleW));
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('touchstart', handleTouch, { passive: false });
+    canvas.addEventListener('touchmove', handleTouch, { passive: false });
 
     const resetBall = () => {
       ballX = canvas.width / 2;
@@ -337,6 +357,8 @@ export default function BricklowGame() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('touchstart', handleTouch);
+      canvas.removeEventListener('touchmove', handleTouch);
     };
   }, [gameKey]);
 
@@ -350,8 +372,8 @@ export default function BricklowGame() {
         <span style={{ color: '#ef4444' }}>{'❤️'.repeat(Math.max(0, lives))}</span>
       </div>
 
-      <div style={{ position: 'relative', border: '2px solid #0284c7', borderRadius: 4, overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.6)' }}>
-        <canvas ref={canvasRef} style={{ display: 'block', cursor: 'none' }} />
+      <div style={{ position: 'relative', border: '2px solid #0284c7', borderRadius: 4, overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.6)', touchAction: 'none' }}>
+        <canvas ref={canvasRef} style={{ display: 'block', cursor: 'none', maxWidth: '100%', height: 'auto' }} />
 
         {/* Level notice banner */}
         {levelNotice && !gameOver && !gameWon && (
@@ -391,8 +413,18 @@ export default function BricklowGame() {
         )}
       </div>
 
+      {/* Retro Arcade Virtual Paddle Controller */}
+      <VirtualGamepad
+        showDpad={true}
+        horizontalOnly={true}
+        onLeft={() => movePaddleDeltaRef.current?.(-24)}
+        onRight={() => movePaddleDeltaRef.current?.(24)}
+        onReset={restartGame}
+        resetLabel="Restart"
+      />
+
       <div style={{ fontSize: 11, color: '#9ca3af', fontFamily: 'monospace', textAlign: 'center' }}>
-        Move with Mouse or Arrow Keys / A & D. Clear all bricks to advance levels!
+        Drag finger directly on screen, or use Left/Right Paddle buttons or Arrow Keys!
       </div>
     </div>
   );
