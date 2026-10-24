@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, Suspense, lazy } from 'react';
 import AquaMenuBar from './AquaMenuBar';
 import AquaDock from './AquaDock';
 import AquaWindow from './AquaWindow';
+import { soundManager } from '../../utils/soundManager';
 
 // Data
 import { PROJECTS } from '../../data/portfolioData';
 
-// Applications
+// Core Applications
 import AquaAboutApp from '../Apps/AquaAboutApp';
 import AquaProjectWindow from '../Apps/AquaProjectWindow';
 import AquaContactApp from '../Apps/AquaContactApp';
@@ -14,61 +15,49 @@ import AquaPrefsApp from '../Apps/AquaPrefsApp';
 import AquaFolderWindow from '../Apps/AquaFolderWindow';
 import AquaPreviewApp from '../Apps/AquaPreviewApp';
 import AquaPlayerApp from '../Apps/AquaPlayerApp';
-import AquaMatrixMode from '../Apps/AquaMatrixMode';
-import AquaDashboard from '../Apps/AquaDashboard';
 
-// Arcade Games
-import TomChompGame from '../Games/TomChompGame';
-import LongDogGame from '../Games/LongDogGame';
-import BricklowGame from '../Games/BricklowGame';
-import TetrisGame from '../Games/TetrisGame';
-import HackerRunnerGame from '../Games/HackerRunnerGame';
+// Lazy Loaded Overlays & Arcade Games (Code Splitting for Optimal Performance)
+const AquaMatrixMode = lazy(() => import('../Apps/AquaMatrixMode'));
+const AquaDashboard = lazy(() => import('../Apps/AquaDashboard'));
+const TomChompGame = lazy(() => import('../Games/TomChompGame'));
+const LongDogGame = lazy(() => import('../Games/LongDogGame'));
+const BricklowGame = lazy(() => import('../Games/BricklowGame'));
+const TetrisGame = lazy(() => import('../Games/TetrisGame'));
+const HackerRunnerGame = lazy(() => import('../Games/HackerRunnerGame'));
 
 // Portfolio Showcase & Works Carousel
 import PortfolioShowcase from '../Showcase/PortfolioShowcase';
 
 const WALLPAPERS = {
-  aqua: '/images/aqua-wallpaper.jpg',
-  'baja-coast': '/images/baja-coast.jpg',
-  'baja-sunset': '/images/baja-sunset.jpg',
-  autumn: '/images/autumn.jpg'
+  aqua: '/images/aqua-wallpaper.webp',
+  'baja-coast': '/images/baja-coast.webp',
+  'baja-sunset': '/images/baja-sunset.webp',
+  autumn: '/images/autumn.webp'
 };
 
-function playSystemSound(type = 'click') {
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-
-    if (type === 'click') {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(800, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.04);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.04);
-    } else if (type === 'pop') {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(520, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(1040, ctx.currentTime + 0.08);
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.08);
-    }
-  } catch {
-    // Audio context not allowed or audio disabled
-  }
-}
+const GameSuspenseFallback = () => (
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    backgroundColor: '#0f172a',
+    color: '#94a3b8',
+    fontFamily: 'monospace',
+    gap: 12
+  }}>
+    <div style={{
+      width: 24,
+      height: 24,
+      border: '2px solid rgba(56, 189, 248, 0.25)',
+      borderTopColor: '#38bdf8',
+      borderRadius: '50%',
+      animation: 'spinOrbit 0.8s linear infinite'
+    }} />
+    <span style={{ fontSize: 12, letterSpacing: 1 }}>LOADING ARCADE MODULE...</span>
+  </div>
+);
 
 export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme }) {
   const [internalTheme, setInternalTheme] = useState(() => {
@@ -109,7 +98,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
   const [fontScale, setFontScale] = useState(112);
   const [nightTint, setNightTint] = useState(false);
   const [dockHidden, setDockHidden] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(() => !soundManager.isMuted);
   const [folderView, setFolderView] = useState('icon');
   const [selectedDesktopIcon, setSelectedDesktopIcon] = useState(null);
 
@@ -189,9 +178,27 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
   const [activeWindowId, setActiveWindowId] = useState('about');
   const highestZ = useRef(20);
 
-  const playSfx = (type) => {
-    if (soundEnabled) playSystemSound(type);
-  };
+  const handleToggleSound = useCallback(() => {
+    setSoundEnabled(prev => {
+      const next = !prev;
+      soundManager.setMuted(!next);
+      return next;
+    });
+  }, []);
+
+  const playSfx = useCallback((type = 'click') => {
+    if (!soundEnabled) return;
+    if (type === 'click') soundManager.playClick();
+    else if (type === 'pop') soundManager.playPop();
+    else if (type === 'open') soundManager.playWindowOpen();
+    else if (type === 'close') soundManager.playWindowClose();
+    else if (type === 'minimize') soundManager.playWindowMinimize();
+    else if (type === 'restore') soundManager.playWindowRestore();
+    else soundManager.playClick();
+  }, [soundEnabled]);
+
+  const playSfxRef = useRef(playSfx);
+  playSfxRef.current = playSfx;
 
   const focusWindow = (id) => {
     highestZ.current += 1;
@@ -202,7 +209,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
   };
 
   const closeWindow = (id) => {
-    playSfx('click');
+    playSfx('close');
     setWindows(prev => prev.filter(w => w.id !== id));
     if (activeWindowId === id) {
       const remaining = windows.filter(w => w.id !== id);
@@ -216,14 +223,14 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
   };
 
   const minimizeWindow = (id) => {
-    playSfx('click');
+    playSfx('minimize');
     setWindows(prev =>
       prev.map(w => (w.id === id ? { ...w, isMinimized: true } : w))
     );
   };
 
   const restoreWindow = (id) => {
-    playSfx('pop');
+    playSfx('restore');
     setWindows(prev =>
       prev.map(w => (w.id === id ? { ...w, isMinimized: false } : w))
     );
@@ -232,7 +239,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
 
   // Open or focus an app/window
   const openWindow = (type, customProps = {}) => {
-    playSfx('pop');
+    playSfx('open');
     const existing = windows.find(w => w.type === type || (customProps.id && w.id === customProps.id));
     if (existing) {
       if (existing.isMinimized) {
@@ -453,7 +460,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
       id: `player-${item.id}`,
       title: item.name || 'QuickTime Player',
       videoSrc: item.videoSrc,
-      poster: item.thumbnail || '/images/speaking_sac_2.jpeg'
+      poster: item.thumbnail || '/images/speaking_sac_2.webp'
     });
   };
 
@@ -467,24 +474,24 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
       { id: 'sales-agent', name: 'Autonomous AI Sales Agent', icon: '🤖', kind: 'FastAPI / Ollama', size: '3.1 MB', date: '2026' }
     ],
     designs: [
-      { id: 'des-1', name: 'Dia de Muertos Quiz.png', thumbnail: '/images/dia_de_muertos_quiz.png', src: '/images/dia_de_muertos_quiz.png', kind: 'PNG Image', size: '306 KB', date: 'Oct 2024' },
-      { id: 'des-2', name: 'The Starter Quiz.png', thumbnail: '/images/starter_quiz.png', src: '/images/starter_quiz.png', kind: 'PNG Image', size: '342 KB', date: 'Jul 2024' },
-      { id: 'des-3', name: 'Kaun Banega Khiladi Quiz.png', thumbnail: '/images/kbk_quiz.png', src: '/images/kbk_quiz.png', kind: 'PNG Image', size: '855 KB', date: '2024' },
-      { id: 'des-4', name: 'Rewind Quiz.png', thumbnail: '/images/rewind_quiz.png', src: '/images/rewind_quiz.png', kind: 'PNG Image', size: '259 KB', date: 'Aug 2024' },
-      { id: 'des-5', name: 'Studio 99 Identity.png', thumbnail: '/images/studio99.png', src: '/images/studio99.png', kind: 'PNG Image', size: '247 KB', date: 'Feb 2025' },
-      { id: 'des-6', name: 'Videogames Quiz.png', thumbnail: '/images/videogames_quiz.png', src: '/images/videogames_quiz.png', kind: 'PNG Image', size: '388 KB', date: 'Dec 2024' },
-      { id: 'des-7', name: 'The Office Quiz.png', thumbnail: '/images/theoffice_quiz.png', src: '/images/theoffice_quiz.png', kind: 'PNG Image', size: '399 KB', date: 'Jan 2025' },
-      { id: 'des-8', name: 'Grey Matter — Liquid.png', thumbnail: '/images/join_us_liquid.png', src: '/images/join_us_liquid.png', kind: 'PNG Image', size: '473 KB', date: '2025' },
-      { id: 'des-9', name: 'Grey Matter — Waves.png', thumbnail: '/images/join_us_waves.png', src: '/images/join_us_waves.png', kind: 'PNG Image', size: '606 KB', date: '2025' },
-      { id: 'des-10', name: 'Motley Crew Quiz.png', thumbnail: '/images/motley_crew_quiz.png', src: '/images/motley_crew_quiz.png', kind: 'PNG Image', size: '494 KB', date: 'Nov 2024' },
-      { id: 'des-11', name: 'Nutella Quiz.png', thumbnail: '/images/nutella_quiz.png', src: '/images/nutella_quiz.png', kind: 'PNG Image', size: '249 KB', date: 'Sep 2024' }
+      { id: 'des-1', name: 'Dia de Muertos Quiz.png', thumbnail: '/images/dia_de_muertos_quiz.webp', src: '/images/dia_de_muertos_quiz.webp', kind: 'PNG Image', size: '306 KB', date: 'Oct 2024' },
+      { id: 'des-2', name: 'The Starter Quiz.png', thumbnail: '/images/starter_quiz.webp', src: '/images/starter_quiz.webp', kind: 'PNG Image', size: '342 KB', date: 'Jul 2024' },
+      { id: 'des-3', name: 'Kaun Banega Khiladi Quiz.png', thumbnail: '/images/kbk_quiz.webp', src: '/images/kbk_quiz.webp', kind: 'PNG Image', size: '855 KB', date: '2024' },
+      { id: 'des-4', name: 'Rewind Quiz.png', thumbnail: '/images/rewind_quiz.webp', src: '/images/rewind_quiz.webp', kind: 'PNG Image', size: '259 KB', date: 'Aug 2024' },
+      { id: 'des-5', name: 'Studio 99 Identity.png', thumbnail: '/images/studio99.webp', src: '/images/studio99.webp', kind: 'PNG Image', size: '247 KB', date: 'Feb 2025' },
+      { id: 'des-6', name: 'Videogames Quiz.png', thumbnail: '/images/videogames_quiz.webp', src: '/images/videogames_quiz.webp', kind: 'PNG Image', size: '388 KB', date: 'Dec 2024' },
+      { id: 'des-7', name: 'The Office Quiz.png', thumbnail: '/images/theoffice_quiz.webp', src: '/images/theoffice_quiz.webp', kind: 'PNG Image', size: '399 KB', date: 'Jan 2025' },
+      { id: 'des-8', name: 'Grey Matter — Liquid.png', thumbnail: '/images/join_us_liquid.webp', src: '/images/join_us_liquid.webp', kind: 'PNG Image', size: '473 KB', date: '2025' },
+      { id: 'des-9', name: 'Grey Matter — Waves.png', thumbnail: '/images/join_us_waves.webp', src: '/images/join_us_waves.webp', kind: 'PNG Image', size: '606 KB', date: '2025' },
+      { id: 'des-10', name: 'Motley Crew Quiz.png', thumbnail: '/images/motley_crew_quiz.webp', src: '/images/motley_crew_quiz.webp', kind: 'PNG Image', size: '494 KB', date: 'Nov 2024' },
+      { id: 'des-11', name: 'Nutella Quiz.png', thumbnail: '/images/nutella_quiz.webp', src: '/images/nutella_quiz.webp', kind: 'PNG Image', size: '249 KB', date: 'Sep 2024' }
     ],
     speaking: [
-      { id: 'spk-1', name: 'NMAMIT Model United Nations (MUN).jpeg', thumbnail: '/images/speaking_mun_1.jpeg', kind: 'JPEG Photo', size: '67 KB', date: '2024' },
-      { id: 'spk-2', name: 'MUN Committee Debate.jpeg', thumbnail: '/images/speaking_mun_2.jpeg', kind: 'JPEG Photo', size: '140 KB', date: '2024' },
-      { id: 'spk-3', name: 'Student Activity Council Keynote.jpeg', thumbnail: '/images/speaking_sac_2.jpeg', kind: 'JPEG Photo', size: '878 KB', date: '2024' },
-      { id: 'spk-4', name: 'Technical Presentation Stage.jpeg', thumbnail: '/images/speaking_stage_laptop.jpeg', kind: 'JPEG Photo', size: '120 KB', date: '2024' },
-      { id: 'spk-5', name: 'Aikya Youth Leadership.jpeg', thumbnail: '/images/speaking_aikya.jpeg', kind: 'JPEG Photo', size: '65 KB', date: '2024' }
+      { id: 'spk-1', name: 'NMAMIT Model United Nations (MUN).jpeg', thumbnail: '/images/speaking_mun_1.webp', kind: 'JPEG Photo', size: '67 KB', date: '2024' },
+      { id: 'spk-2', name: 'MUN Committee Debate.jpeg', thumbnail: '/images/speaking_mun_2.webp', kind: 'JPEG Photo', size: '140 KB', date: '2024' },
+      { id: 'spk-3', name: 'Student Activity Council Keynote.jpeg', thumbnail: '/images/speaking_sac_2.webp', kind: 'JPEG Photo', size: '878 KB', date: '2024' },
+      { id: 'spk-4', name: 'Technical Presentation Stage.jpeg', thumbnail: '/images/speaking_stage_laptop.webp', kind: 'JPEG Photo', size: '120 KB', date: '2024' },
+      { id: 'spk-5', name: 'Aikya Youth Leadership.jpeg', thumbnail: '/images/speaking_aikya.webp', kind: 'JPEG Photo', size: '65 KB', date: '2024' }
     ],
     certs: [
       { id: 'c-1', name: 'Google Cybersecurity Certificate', icon: '🛡️', kind: 'Credential', size: '120 KB', date: '2025' },
@@ -504,13 +511,13 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
   // Desktop Icons Configuration: Folders & System Items
   // All photos are housed inside the 'Designs' folder, and all projects inside the 'Projects' folder
   const desktopIcons = [
-    { id: 'profile', label: 'Sarvasva', iconSrc: '/images/user_profile.png', action: () => openWindow('about') },
+    { id: 'profile', label: 'Sarvasva', iconSrc: '/images/user_profile.webp', action: () => openWindow('about') },
     { id: 'projects', label: 'Projects', iconEmoji: '💼', action: () => openWindow('projects') },
     { id: 'designs', label: 'Designs', iconEmoji: '🎨', action: () => openWindow('designs') },
     { id: 'speaking', label: 'Speaking', iconEmoji: '🎤', action: () => openWindow('speaking') },
     { id: 'certs', label: 'Certifications', iconEmoji: '📜', action: () => openWindow('certs') },
     { id: 'games', label: 'Arcade Games', iconEmoji: '🕹️', action: () => openWindow('games') },
-    { id: 'mail', label: 'Mail', iconSrc: '/images/mail-icon.png', action: () => openWindow('contact') }
+    { id: 'mail', label: 'Mail', iconSrc: '/images/mail-icon.webp', action: () => openWindow('contact') }
   ];
 
   const getProjectData = (id) => {
@@ -651,7 +658,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
         setPullOffset(0);
         setPullProgress(0);
         accumulatedDeltaRef.current = 0;
-        playSfx('pop');
+        playSfxRef.current('pop');
         scrollToShowcase();
         setTimeout(() => {
           isUnlockingRef.current = false;
@@ -706,7 +713,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
           setIsPulling(false);
           setPullOffset(0);
           setPullProgress(0);
-          playSfx('pop');
+          playSfxRef.current('pop');
           scrollToShowcase();
           setTimeout(() => {
             isUnlockingRef.current = false;
@@ -777,7 +784,7 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
           onSetFolderView={setFolderView}
           onTriggerMatrix={() => setIsMatrixActive(true)}
           soundEnabled={soundEnabled}
-          onToggleSound={() => setSoundEnabled(!soundEnabled)}
+          onToggleSound={handleToggleSound}
           theme={theme}
           onToggleTheme={handleToggleTheme}
           onSleep={() => setIsSleeping(true)}
@@ -933,12 +940,14 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
                 />
               )}
 
-              {/* Arcade Games */}
-              {['pacman', 'tom-chomp'].includes(win.type) && <TomChompGame />}
-              {['snake', 'long-dog'].includes(win.type) && <LongDogGame />}
-              {['brick-breaker', 'bricklow'].includes(win.type) && <BricklowGame />}
-              {win.type === 'tetris' && <TetrisGame />}
-              {win.type === 'geometry-dash' && <HackerRunnerGame />}
+              {/* Arcade Games (Suspense Loaded) */}
+              <Suspense fallback={<GameSuspenseFallback />}>
+                {['pacman', 'tom-chomp'].includes(win.type) && <TomChompGame />}
+                {['snake', 'long-dog'].includes(win.type) && <LongDogGame />}
+                {['brick-breaker', 'bricklow'].includes(win.type) && <BricklowGame />}
+                {win.type === 'tetris' && <TetrisGame />}
+                {win.type === 'geometry-dash' && <HackerRunnerGame />}
+              </Suspense>
             </AquaWindow>
           </div>
         );
@@ -984,14 +993,20 @@ export default function AquaDesktop({ onReboot, theme: propTheme, onToggleTheme 
       )}
 
       {/* Dashboard Overlay */}
-      <AquaDashboard
-        isOpen={isDashboardActive}
-        onClose={() => setIsDashboardActive(false)}
-      />
+      {isDashboardActive && (
+        <Suspense fallback={null}>
+          <AquaDashboard
+            isOpen={isDashboardActive}
+            onClose={() => setIsDashboardActive(false)}
+          />
+        </Suspense>
+      )}
 
       {/* Matrix Mode Easter Egg */}
       {isMatrixActive && (
-        <AquaMatrixMode onClose={() => setIsMatrixActive(false)} />
+        <Suspense fallback={null}>
+          <AquaMatrixMode onClose={() => setIsMatrixActive(false)} />
+        </Suspense>
       )}
 
       {/* Sleep Mode Overlay */}

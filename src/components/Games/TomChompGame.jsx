@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { soundManager } from '../../utils/soundManager';
 
 const TILE_SIZE = 20;
 const COLS = 19;
@@ -29,24 +30,6 @@ const MAZE_TEMPLATE = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
-function playTone(freq, type = 'sine', duration = 0.05, vol = 0.07) {
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(vol, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
-  } catch {}
-}
-
 export default function TomChompGame() {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
@@ -58,6 +41,8 @@ export default function TomChompGame() {
     } catch {}
     return 1420;
   });
+  const highScoreRef = useRef(highScore);
+  highScoreRef.current = highScore;
   const [gameOver, setGameOver] = useState(false);
   const [isWon, setIsWon] = useState(false);
   const [gameKey, setGameKey] = useState(0);
@@ -192,8 +177,9 @@ export default function TomChompGame() {
           maze[tileRow][tileCol] = 2;
           currentScore += 10;
           setScore(currentScore);
-          playTone(480, 'sine', 0.03, 0.05);
-          if (currentScore > highScore) {
+          soundManager.playChomp(true);
+          if (currentScore > highScoreRef.current) {
+            highScoreRef.current = currentScore;
             setHighScore(currentScore);
             try {
               localStorage.setItem('sarvos_pacman_highscore', String(currentScore));
@@ -204,7 +190,7 @@ export default function TomChompGame() {
           currentScore += 50;
           setScore(currentScore);
           frightenedTimer = 380; // ~6.5 seconds
-          playTone(880, 'triangle', 0.12, 0.1);
+          soundManager.playTone(880, 'triangle', 0.12, 0, 0.1);
         }
       }
 
@@ -297,12 +283,12 @@ export default function TomChompGame() {
             g.dirX = 0;
             g.dirY = -1;
             g.respawnTimer = 120; // 2s pause
-            playTone(950, 'sawtooth', 0.1, 0.09);
+            soundManager.playTone(950, 'sawtooth', 0.1, 0, 0.09);
           } else {
             // Player dies
             active = false;
             setGameOver(true);
-            playTone(160, 'sawtooth', 0.4, 0.15);
+            soundManager.playGameOver();
           }
         }
       });
@@ -341,7 +327,7 @@ export default function TomChompGame() {
       if (dotsRemaining === 0 && currentScore > 0) {
         active = false;
         setIsWon(true);
-        playTone(660, 'sine', 0.3, 0.12);
+        soundManager.playGameWin();
       }
 
       // Draw Pac-Man

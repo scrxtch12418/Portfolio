@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function AquaProjectWindow({
   title,
-  shortTitle,
+  shortTitle: _shortTitle,
   summary,
   description,
   githubUrl,

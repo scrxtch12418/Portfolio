@@ -1,10 +1,10 @@
 import React from 'react';
 
 const WALLPAPERS = [
-  { id: 'aqua', label: 'Classic Aqua', src: '/images/aqua-wallpaper.jpg' },
-  { id: 'baja-coast', label: 'Baja Coast', src: '/images/baja-coast.jpg' },
-  { id: 'baja-sunset', label: 'Baja Sunset', src: '/images/baja-sunset.jpg' },
-  { id: 'autumn', label: 'Autumn', src: '/images/autumn.jpg' }
+  { id: 'aqua', label: 'Classic Aqua', src: '/images/aqua-wallpaper.webp' },
+  { id: 'baja-coast', label: 'Baja Coast', src: '/images/baja-coast.webp' },
+  { id: 'baja-sunset', label: 'Baja Sunset', src: '/images/baja-sunset.webp' },
+  { id: 'autumn', label: 'Autumn', src: '/images/autumn.webp' }
 ];
 
 const TIME_ZONES = [

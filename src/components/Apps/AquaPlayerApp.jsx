@@ -3,13 +3,13 @@ import React, { useState, useRef } from 'react';
 export default function AquaPlayerApp({
   title = 'Showreel - Speaking & Technical Showcase',
   videoSrc,
-  poster = '/images/speaking_sac_2.jpeg'
+  poster = '/images/speaking_sac_2.webp'
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(30);
   const [volume, setVolume] = useState(80);
   const [currentTime, setCurrentTime] = useState('00:24');
-  const [duration, setDuration] = useState('01:20');
+  const [duration] = useState('01:20');
   const videoRef = useRef(null);
 
   const togglePlay = () => {

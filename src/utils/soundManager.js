@@ -1,4 +1,4 @@
-// Centralized Sound Manager for Windows 7 Aero Portfolio Experience
+// Centralized Sound Manager for Aqua OS Portfolio Experience
 // High-fidelity synthesized audio via Web Audio API.
 // No autoplay without user interaction. Master mute & volume controls with localStorage persistence.
 
@@ -94,10 +94,44 @@ class SoundManager {
     chords.forEach(c => this.playTone(c.f, c.type, c.dur, c.d, 0.15));
   }
 
-  // Windows 7 Navigation Click
+  // Navigation Click / Menu Toggle
   playClick() {
     this.playTone(1200, 'sine', 0.03, 0, 0.06);
     this.playTone(800, 'triangle', 0.02, 0.01, 0.04);
+  }
+
+  // Water Bubble Pop (Used for resistance unlocking, dock triggers, badge hits)
+  playPop() {
+    if (this.isMuted || this.volume <= 0) return;
+    try {
+      this.init();
+      if (!this.audioCtx) return;
+      const osc = this.audioCtx.createOscillator();
+      const gainNode = this.audioCtx.createGain();
+      const now = this.audioCtx.currentTime;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(1040, now + 0.08);
+      const effectiveGain = 0.09 * this.volume;
+      gainNode.gain.setValueAtTime(effectiveGain, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+      osc.connect(gainNode);
+      gainNode.connect(this.audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } catch {
+      // Graceful fallback
+    }
+  }
+
+  // Game Chomp / Pellet
+  playChomp(high = false) {
+    this.playTone(high ? 480 : 330, 'sine', 0.035, 0, 0.05);
+  }
+
+  // Ball / Entity Bounce
+  playBounce() {
+    this.playTone(420, 'sine', 0.035, 0, 0.04);
   }
 
   // Window Open
@@ -125,7 +159,7 @@ class SoundManager {
     this.playTone(620, 'triangle', 0.09, 0.03, 0.06);
   }
 
-  // Start Menu Open
+  // Start Menu / Dock Open
   playStartMenu() {
     this.playTone(480, 'sine', 0.06, 0, 0.06);
     this.playTone(720, 'sine', 0.09, 0.03, 0.07);

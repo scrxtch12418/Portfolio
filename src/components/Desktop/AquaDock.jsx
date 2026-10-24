@@ -110,13 +110,13 @@ export default function AquaDock({
 
   const getWindowVisual = (type) => {
     switch (type) {
-      case 'about': return { emoji: '👨‍💻', icon: '/images/user_profile.png' };
-      case 'llm-security': return { emoji: '🛡️', icon: '/images/biglow-icon.png' };
-      case 'rat-research': return { emoji: '💻', icon: '/images/firstlook-icon.png' };
-      case 'focus-extension': return { emoji: '⏱️', icon: '/images/overexposed-icon.png' };
-      case 'stuck-in-space': return { emoji: '🚀', icon: '/images/lacrimosa-icon.png' };
+      case 'about': return { emoji: '👨‍💻', icon: '/images/user_profile.webp' };
+      case 'llm-security': return { emoji: '🛡️', icon: '/images/biglow-icon.webp' };
+      case 'rat-research': return { emoji: '💻', icon: '/images/firstlook-icon.webp' };
+      case 'focus-extension': return { emoji: '⏱️', icon: '/images/overexposed-icon.webp' };
+      case 'stuck-in-space': return { emoji: '🚀', icon: '/images/lacrimosa-icon.webp' };
       case 'sales-agent': return { emoji: '🤖', icon: null };
-      case 'contact': return { emoji: '✉️', icon: '/images/mail-icon.png' };
+      case 'contact': return { emoji: '✉️', icon: '/images/mail-icon.webp' };
       case 'prefs': return { emoji: '⚙️', icon: null };
       case 'projects': return { emoji: '💼', icon: null };
       case 'designs': return { emoji: '🎨', icon: null };
@@ -144,7 +144,7 @@ export default function AquaDock({
       >
         <DockItem
           title="Sarvasva (About Me)"
-          iconSrc="/images/user_profile.png"
+          iconSrc="/images/user_profile.webp"
           fallbackEmoji="👨‍💻"
           onClick={() => onOpenWindow('about')}
           mouseX={mouseX}
@@ -152,7 +152,7 @@ export default function AquaDock({
         />
         <DockItem
           title="LLM Security Framework"
-          iconSrc="/images/biglow-icon.png"
+          iconSrc="/images/biglow-icon.webp"
           fallbackEmoji="🛡️"
           onClick={() => onOpenWindow('llm-security')}
           mouseX={mouseX}
@@ -160,7 +160,7 @@ export default function AquaDock({
         />
         <DockItem
           title="RAT Research Lab"
-          iconSrc="/images/firstlook-icon.png"
+          iconSrc="/images/firstlook-icon.webp"
           fallbackEmoji="💻"
           onClick={() => onOpenWindow('rat-research')}
           mouseX={mouseX}
@@ -168,7 +168,7 @@ export default function AquaDock({
         />
         <DockItem
           title="ADHD Focus Extension"
-          iconSrc="/images/overexposed-icon.png"
+          iconSrc="/images/overexposed-icon.webp"
           fallbackEmoji="⏱️"
           onClick={() => onOpenWindow('focus-extension')}
           mouseX={mouseX}
@@ -176,7 +176,7 @@ export default function AquaDock({
         />
         <DockItem
           title="Stuck in Space (Godot Game)"
-          iconSrc="/images/lacrimosa-icon.png"
+          iconSrc="/images/lacrimosa-icon.webp"
           fallbackEmoji="🚀"
           onClick={() => onOpenWindow('stuck-in-space')}
           mouseX={mouseX}
@@ -195,7 +195,7 @@ export default function AquaDock({
 
         <DockItem
           title="Contact Operator"
-          iconSrc="/images/mail-icon.png"
+          iconSrc="/images/mail-icon.webp"
           fallbackEmoji="✉️"
           onClick={() => onOpenWindow('contact')}
           mouseX={mouseX}

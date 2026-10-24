@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { soundManager } from '../../utils/soundManager';
 
 export default function LongDogGame() {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(() => {
-    return parseInt(localStorage.getItem('sarvos_dog_highscore') || '0', 10);
+    try {
+      return parseInt(localStorage.getItem('sarvos_dog_highscore') || '0', 10);
+    } catch {
+      return 0;
+    }
   });
+  const highScoreRef = useRef(highScore);
+  highScoreRef.current = highScore;
+
   const [gameOver, setGameOver] = useState(false);
   const [gameKey, setGameKey] = useState(0);
 
@@ -77,6 +85,7 @@ export default function LongDogGame() {
         if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows) {
           active = false;
           setGameOver(true);
+          soundManager.playGameOver();
           return;
         }
 
@@ -84,6 +93,7 @@ export default function LongDogGame() {
         if (snake.some(s => s.x === head.x && s.y === head.y)) {
           active = false;
           setGameOver(true);
+          soundManager.playGameOver();
           return;
         }
 
@@ -93,9 +103,13 @@ export default function LongDogGame() {
         if (head.x === treat.x && head.y === treat.y) {
           currentScore += 10;
           setScore(currentScore);
-          if (currentScore > highScore) {
+          soundManager.playScore();
+          if (currentScore > highScoreRef.current) {
+            highScoreRef.current = currentScore;
             setHighScore(currentScore);
-            localStorage.setItem('sarvos_dog_highscore', String(currentScore));
+            try {
+              localStorage.setItem('sarvos_dog_highscore', String(currentScore));
+            } catch {}
           }
           spawnTreat();
         } else {

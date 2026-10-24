@@ -13,7 +13,7 @@ export const PERSONAL_INFO = {
   mission: "Learn more, Build more, Help more :)",
   hobbies: ["Gaming", "Music", "Coding", "Debates", "Photography"],
   bio: `I am a cybersecurity enthusiast and full-stack software engineer pursuing my BE in Computer Science at NMAMIT. I specialize in penetration testing, building security tools, and automating tasks. Beyond code, I am a photographer, make attractive and flashy posters for club events, and design user interfaces for web applications. When I am not doing those, I host quizzes and flashmobs, join debates, and connect with my peers. Along with that I also enjoy playing video games, listening to music, and podcasts.`,
-  profilePhoto: "/images/user_profile.png",
+  profilePhoto: "/images/user_profile.webp",
   pokeQuotes: [
     "STOP! STOP! DON'T TOUCH ME!",
     "OUCH! THAT HURTS!",
@@ -253,7 +253,7 @@ export const DESIGNS = [
     id: "motley-crew",
     title: "THE MOTLEY CREW QUIZ",
     subtitle: "Poster Design · Grey Matter QDC",
-    src: "/images/motley_crew_quiz.png",
+    src: "/images/motley_crew_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Visual poster created for the flagship multi-genre Motley Crew Quiz night."
@@ -262,7 +262,7 @@ export const DESIGNS = [
     id: "nutella-quiz",
     title: "THE NUTELLA QUIZ",
     subtitle: "Poster Design · Sweet Tooth Special",
-    src: "/images/nutella_quiz.png",
+    src: "/images/nutella_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Rich, decadent typography and visual composition for a culinary trivia event."
@@ -271,7 +271,7 @@ export const DESIGNS = [
     id: "dia-de-muertos",
     title: "DÍA DE MUERTOS QUIZ",
     subtitle: "Poster Design · Cultural Festival",
-    src: "/images/dia_de_muertos_quiz.png",
+    src: "/images/dia_de_muertos_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Vibrant Mexican cultural fest themed graphic exploring folklore, sugar skulls, and trivia."
@@ -280,7 +280,7 @@ export const DESIGNS = [
     id: "starter-quiz",
     title: "THE STARTER QUIZ",
     subtitle: "Poster Design · Freshman Welcome",
-    src: "/images/starter_quiz.png",
+    src: "/images/starter_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Introductory event graphic inviting newcomers to the college debating and quizzing club."
@@ -289,7 +289,7 @@ export const DESIGNS = [
     id: "kbk-quiz",
     title: "KAUN BANEGA KHILADI?",
     subtitle: "Poster Design · Sports Trivia Night",
-    src: "/images/kbk_quiz.png",
+    src: "/images/kbk_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Sports arena inspired high-contrast poster celebrating athletic trivia and gaming culture."
@@ -298,7 +298,7 @@ export const DESIGNS = [
     id: "rewind-quiz",
     title: "REWIND QUIZ",
     subtitle: "Poster Design · Retro Nostalgia",
-    src: "/images/rewind_quiz.png",
+    src: "/images/rewind_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Vintage cassette and retro aesthetic poster evoking 80s/90s nostalgia for pop-culture trivia."
@@ -307,7 +307,7 @@ export const DESIGNS = [
     id: "studio-99",
     title: "STUDIO 99",
     subtitle: "Commercial Graphic Design",
-    src: "/images/studio99.png",
+    src: "/images/studio99.webp",
     category: "Commercial Design",
     year: "2025",
     desc: "Modern sleek branding and promotional poster created for Studio 99."
@@ -316,7 +316,7 @@ export const DESIGNS = [
     id: "videogames-quiz",
     title: "VIDEO GAMES QUIZ",
     subtitle: "Poster Design · Gaming Special",
-    src: "/images/videogames_quiz.png",
+    src: "/images/videogames_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Arcade and console gaming themed poster featuring retro controller graphics and pixel cues."
@@ -325,7 +325,7 @@ export const DESIGNS = [
     id: "the-office-quiz",
     title: "THE OFFICE QUIZ",
     subtitle: "Poster Design · Sitcom Trivia",
-    src: "/images/theoffice_quiz.png",
+    src: "/images/theoffice_quiz.webp",
     category: "Poster Design",
     year: "2024",
     desc: "Dunder Mifflin themed poster with corporate-parody styling and iconic show references."
@@ -334,7 +334,7 @@ export const DESIGNS = [
     id: "grey-matter-liquid",
     title: "GREY MATTER RECRUITMENT — LIQUID",
     subtitle: "Recruitment Campaign · Version A",
-    src: "/images/join_us_liquid.png",
+    src: "/images/join_us_liquid.webp",
     category: "Club Campaign",
     year: "2025",
     desc: "Acid and liquid visual styling for club recruitment drives."
@@ -343,7 +343,7 @@ export const DESIGNS = [
     id: "grey-matter-waves",
     title: "GREY MATTER RECRUITMENT — WAVES",
     subtitle: "Recruitment Campaign · Version B",
-    src: "/images/join_us_waves.png",
+    src: "/images/join_us_waves.webp",
     category: "Club Campaign",
     year: "2025",
     desc: "Abstract wave deformation and brutalist typography for club recruitment."
@@ -358,8 +358,8 @@ export const SPEAKING_EVENTS = [
     desc: "Hosted intra-college events and quizzes, along with participating in quite a few of them. Wrote questions, managed rounds, kept audience energy high, and coordinated live stage flows.",
     tags: ["Quiz Master", "Audience Mgmt", "Stage Presence"],
     photos: [
-      { src: "/images/speaking_aikya.jpeg", caption: "Sarvasva hosting the cultural fest Aikya on the main stage" },
-      { src: "/images/speaking_stage_laptop.jpeg", caption: "Configuring systems and stage cues from the host panel" }
+      { src: "/images/speaking_aikya.webp", caption: "Sarvasva hosting the cultural fest Aikya on the main stage" },
+      { src: "/images/speaking_stage_laptop.webp", caption: "Configuring systems and stage cues from the host panel" }
     ]
   },
   {
@@ -369,9 +369,9 @@ export const SPEAKING_EVENTS = [
     desc: "Argued complex delegate briefs and policy resolutions at Model United Nations. Participated in Lok Sabhas, presenting various bills and drafting legislative amendments.",
     tags: ["Delegate", "MUN Debate", "Presentation", "Lok Sabha"],
     photos: [
-      { src: "/images/speaking_lecture.jpeg", caption: "Delivering a technical presentation with a slide deck" },
-      { src: "/images/speaking_mun_1.jpeg", caption: "Presenting critical delegate resolutions at KMC MUN" },
-      { src: "/images/speaking_mun_2.jpeg", caption: "Addressing the delegate assembly floor during MUN rounds" }
+      { src: "/images/speaking_lecture.webp", caption: "Delivering a technical presentation with a slide deck" },
+      { src: "/images/speaking_mun_1.webp", caption: "Presenting critical delegate resolutions at KMC MUN" },
+      { src: "/images/speaking_mun_2.webp", caption: "Addressing the delegate assembly floor during MUN rounds" }
     ]
   },
   {
@@ -381,8 +381,8 @@ export const SPEAKING_EVENTS = [
     desc: "Led and coordinated large-scale flashmob performances to promote flagship college festivals like Aikya and Incridea. Managed rehearsals, crowd engagement, and outdoor venue synchronization.",
     tags: ["Choreographer", "Team Coordination", "Fest Hype"],
     photos: [
-      { src: "/images/speaking_sac_1.jpeg", caption: "Engaging a dynamic student crowd during an outdoor open-mic event" },
-      { src: "/images/speaking_sac_2.jpeg", caption: "Addressing NMAMIT students during an outdoor SAC presentation" }
+      { src: "/images/speaking_sac_1.webp", caption: "Engaging a dynamic student crowd during an outdoor open-mic event" },
+      { src: "/images/speaking_sac_2.webp", caption: "Addressing NMAMIT students during an outdoor SAC presentation" }
     ]
   }
 ];

@@ -70,7 +70,7 @@ export default function ComputerLanding({ onEnter, theme = 'light', onToggleThem
         inset: 0,
         zIndex: 99999,
         backgroundColor: '#3b386e',
-        backgroundImage: "url('/images/intro_bg.png')",
+        backgroundImage: "url('/images/intro_bg.webp')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -150,7 +150,7 @@ export default function ComputerLanding({ onEnter, theme = 'light', onToggleThem
       <div style={{ position: 'relative', zIndex: 10, display: 'inline-flex' }}>
         <img
           ref={imgRef}
-          src="/images/retro_computer.png"
+          src="/images/retro_computer.webp"
           alt="Retro Workstation Computer"
           draggable={false}
           style={{
@@ -175,7 +175,7 @@ export default function ComputerLanding({ onEnter, theme = 'light', onToggleThem
             overflow: 'hidden',
             pointerEvents: 'none',
             boxShadow: 'inset 0 0 16px rgba(0,0,0,0.65), inset 0 2px 4px rgba(0,0,0,0.85)',
-            backgroundImage: 'url(/images/aqua-wallpaper.jpg)',
+            backgroundImage: 'url(/images/aqua-wallpaper.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             fontFamily: '-apple-system, BlinkMacSystemFont, "Lucida Grande", "Segoe UI", Roboto, sans-serif'
@@ -251,7 +251,7 @@ export default function ComputerLanding({ onEnter, theme = 'light', onToggleThem
               {/* Body */}
               <div style={{ padding: '6% 8%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', flex: 1 }}>
                 <img
-                  src="/images/user_profile.png"
+                  src="/images/user_profile.webp"
                   alt="Sarvasva"
                   style={{
                     width: '30%',
@@ -405,7 +405,7 @@ export default function ComputerLanding({ onEnter, theme = 'light', onToggleThem
                 zIndex: 8
               }}
             >
-              {['/images/user_profile.png', '/images/biglow-icon.png', '/images/firstlook-icon.png', '/images/overexposed-icon.png', '/images/lacrimosa-icon.png', '/images/mail-icon.png'].map((src, idx) => (
+              {['/images/user_profile.webp', '/images/biglow-icon.webp', '/images/firstlook-icon.webp', '/images/overexposed-icon.webp', '/images/lacrimosa-icon.webp', '/images/mail-icon.webp'].map((src, idx) => (
                 <div key={src} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <img
                     src={src}

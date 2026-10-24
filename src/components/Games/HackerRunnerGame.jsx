@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { playClick, playGameScore, playGameOver } from '../../utils/retroAudio';
+import { soundManager } from '../../utils/soundManager';
 
 export default function HackerRunnerGame() {
   const canvasRef = useRef(null);
@@ -22,7 +22,7 @@ export default function HackerRunnerGame() {
     if (s.running && !s.dinoJumping) {
       s.dinoVelocity = -11;
       s.dinoJumping = true;
-      playClick();
+      soundManager.playClick();
     }
   };
 
@@ -136,7 +136,7 @@ export default function HackerRunnerGame() {
           if (obs.x < 74 && obs.x + obs.width > 50 && s.dinoY + 28 > 170 - obs.height) {
             s.running = false;
             setIsGameOver(true);
-            playGameOver();
+            soundManager.playGameOver();
             return;
           }
 
@@ -145,7 +145,7 @@ export default function HackerRunnerGame() {
             obs.passed = true;
             s.gameScore++;
             setScore(s.gameScore);
-            playGameScore();
+            soundManager.playScore();
           }
 
           if (obs.x < -40) {

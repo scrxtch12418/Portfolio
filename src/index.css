@@ -1,6 +1,5 @@
 /* Main entry stylesheet - Mac OS X Aqua & Retro Applications */
 @import './styles/aquaOS.css';
-@import './styles/apps.css';
 
 :root {
   color-scheme: light;

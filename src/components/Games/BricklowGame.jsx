@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { soundManager } from '../../utils/soundManager';
 
 // Level layout templates (1 = normal brick, 2 = durable 2-hit brick, 0 = empty)
 const LEVEL_LAYOUTS = [
@@ -98,8 +99,8 @@ export default function BricklowGame() {
     canvas.width = 400;
     canvas.height = 480;
 
-    let curLevel = levelIndex;
-    let cfg = LEVEL_LAYOUTS[curLevel] || LEVEL_LAYOUTS[0];
+    let curLevel = 0;
+    let cfg = LEVEL_LAYOUTS[0];
 
     let paddleW = cfg.paddleW;
     let paddleH = 12;
@@ -112,8 +113,8 @@ export default function BricklowGame() {
     let ballDy = -currentSpeed;
     let ballRadius = 6;
 
-    let currentLives = lives;
-    let currentScore = score;
+    let currentLives = 3;
+    let currentScore = 0;
     let rightPressed = false;
     let leftPressed = false;
     let animId;
@@ -227,6 +228,7 @@ export default function BricklowGame() {
               b.status -= 1;
               currentScore += b.maxHits > 1 ? 40 : 20;
               setScore(currentScore);
+              soundManager.playTone(b.maxHits > 1 ? 640 : 480, 'square', 0.04, 0, 0.05);
 
               // Flash color if damaged
               if (b.status === 1 && b.maxHits === 2) {
@@ -259,6 +261,7 @@ export default function BricklowGame() {
       if (remaining === 0) {
         currentScore += 200;
         setScore(currentScore);
+        soundManager.playGameWin();
         nextLevel();
         return;
       }
@@ -276,6 +279,7 @@ export default function BricklowGame() {
           const hitOffset = (ballX - (paddleX + paddleW / 2)) / (paddleW / 2);
           ballDx = hitOffset * currentSpeed * 1.1;
           ballDy = -Math.abs(ballDy);
+          soundManager.playBounce();
         } else if (ballY + ballDy > canvas.height - ballRadius) {
           // Missed paddle
           currentLives -= 1;
@@ -283,8 +287,10 @@ export default function BricklowGame() {
           if (currentLives <= 0) {
             active = false;
             setGameOver(true);
+            soundManager.playGameOver();
             return;
           } else {
+            soundManager.playTone(220, 'sawtooth', 0.16, 0, 0.08);
             resetBall();
           }
         }

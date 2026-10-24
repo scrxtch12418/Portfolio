@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { playClick, playGameScore, playGameOver } from '../../utils/retroAudio';
+import { soundManager } from '../../utils/soundManager';
 
 const COLS = 10;
 const ROWS = 20;
@@ -43,7 +43,7 @@ export default function TetrisGame() {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] && gridRef.current[initialPos.y + r]?.[initialPos.x + c]) {
           setIsGameOver(true);
-          playGameOver();
+          soundManager.playGameOver();
           return null;
         }
       }
@@ -76,7 +76,7 @@ export default function TetrisGame() {
     if (!pieceRef.current || isGameOver || isPaused) return;
     const rotated = rotate(pieceRef.current.shape);
     if (!checkCollision(rotated, posRef.current)) {
-      playClick();
+      soundManager.playClick();
       setCurrentPiece(prev => ({ ...prev, shape: rotated }));
     }
   }, [checkCollision, isGameOver, isPaused]);
@@ -116,7 +116,7 @@ export default function TetrisGame() {
     }
 
     if (cleared > 0) {
-      playGameScore();
+      soundManager.playScore();
       const points = [0, 100, 300, 500, 800][cleared] || 1000;
       setScore(s => s + points * level);
       setLines(l => {

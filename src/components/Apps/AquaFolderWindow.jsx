@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 export default function AquaFolderWindow({
-  folderId,
-  title,
+  folderId: _folderId,
+  title: _title,
   items = [],
   viewMode = 'icon',
   onOpenItem,
